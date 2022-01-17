@@ -1,0 +1,35 @@
+li {
+   list-style-type: none;
+   display: flex;
+   align-items: center;
+}
+
+.elements {
+   max-height: 490px;
+   overflow-y: auto;
+   direction: ltr;
+   scrollbar-width: thin;
+}
+.elements::-webkit-scrollbar {
+   width: 8px;
+}
+
+.elements::-webkit-scrollbar-track {
+   background: #2f2f37;
+   border-radius: 664px;
+}
+
+.elements::-webkit-scrollbar-thumb {
+   background-color: rgba(133, 133, 173, 1);
+}
+
+.info {
+   display: flex;
+   justify-content: flex-end;
+   height: 64px;
+}
+
+.price {
+   display: flex;
+   align-items: center;
+}
