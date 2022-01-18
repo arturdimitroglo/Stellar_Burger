@@ -12,7 +12,7 @@ function App() {
 
   React.useEffect(
     () => {
-      fetch ( `${URL}`, {
+      fetch(`${URL}`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ function App() {
         return res.json()
       }).then(res => {
         setIngredients(res.data)
-      }).catch(err => 
+      }).catch(err =>
         console.log(err)
       )
     }, [])
@@ -32,7 +32,7 @@ function App() {
       <div className={style.border}>
         <div className='mt-10'>
           <p className='text text_type_main-large'>Соберите бургер</p>
-          
+
           <BurgerIngredients ingredients={ingredients} />
         </div>
 
