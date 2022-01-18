@@ -1,8 +1,10 @@
 import React from 'react';
+
 import style from '../src/App.module.css';
 import AppHeader from './components/app-header/AppHeader'
 import BurgerIngredients from './components/burger-ingredients/BurgerIngredients';
 import BurgerConstructor from './components/burger-constructor/BurgerConstructor';
+
 
 
 function App() {
@@ -41,7 +43,5 @@ function App() {
         </>
       </div>
     </div>
-  );
+  )
 }
-
-export default App;
