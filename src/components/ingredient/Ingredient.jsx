@@ -26,8 +26,8 @@ const Ingredient = ({ ingredient, counter, onClick }) => {
 
 Ingredient.propTypes = {
    ingredient: PropTypes.object.isRequired,
-   counter: PropTypes.number,
-   onClick: PropTypes.func
+   counter: PropTypes.number.isRequired,
+   onClick: PropTypes.func.isRequired
 }
 
 export default Ingredient;

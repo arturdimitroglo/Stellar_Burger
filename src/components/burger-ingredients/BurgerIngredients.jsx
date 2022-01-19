@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './BurgerIngredients.module.css';
-import ListIngredients from '../ListIngredients/ListIngredients';
+import ListIngredients from '../list-ingredients/ListIngredients';
 import Modal from '../modal/Modal.jsx';
 import IngredientDetails from '../ingredient-details/IngredientDetails.jsx';
 
@@ -56,7 +56,7 @@ const BurgerIngredients = ({ ingredients }) => {
 }
 
 BurgerIngredients.propTypes = {
-   ingredient: PropTypes.arrayOf(PropTypes.object)
+   ingredient: PropTypes.arrayOf(PropTypes.object.isRequired)
 }
 
 export default BurgerIngredients;
