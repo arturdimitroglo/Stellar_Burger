@@ -1,0 +1,29 @@
+.item {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   height: 208px;
+   width: 270px;
+   position: relative;
+   cursor: pointer;
+}
+
+.count {
+   position: absolute;
+   top: 0;
+   right: 0;
+}
+
+.price {
+   display: flex;
+   align-items: center;
+}
+
+.bun {
+   width: 240px;
+   object-fit: cover;
+}
+
+.name {
+   text-align: center;
+}

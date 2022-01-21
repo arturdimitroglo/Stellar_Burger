@@ -1,4 +1,11 @@
 import React from 'react';
+import style from './App.module.css';
+import AppHeader from '../app-header/AppHeader'
+import BurgerIngredients from '../burger-ingredients/BurgerIngredients';
+import BurgerConstructor from '../burger-constructor/BurgerConstructor';
+
+
+
 
 function App() {
 
@@ -30,7 +37,6 @@ function App() {
 
           <BurgerIngredients ingredients={ingredients} />
         </div>
-
         <>
           <BurgerConstructor data={ingredients} />
         </>
@@ -38,3 +44,5 @@ function App() {
     </div>
   )
 }
+
+export default App;
