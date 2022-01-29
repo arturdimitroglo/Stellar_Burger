@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/Ingredient';
 import style from './ListIngredients.module.css'
 
-const ListIngredients = ({ ingredients, title, clickIngredient, onClick }) => {
+const ListIngredients = React.forwardRef(({ ingredients, title, clickIngredient, onClick }, ref) => {
 
    const clickItem = (elem) => {
       clickIngredient(elem);
@@ -12,7 +12,7 @@ const ListIngredients = ({ ingredients, title, clickIngredient, onClick }) => {
 
    return (
       <>
-         <div className='text text_type_main-medium mt-10 mb-6'>{title}</div>
+         <div className='text text_type_main-medium mt-10 mb-6' ref={ref}>{title}</div>
 
          <div className={style.colomn}>
             {
@@ -25,7 +25,7 @@ const ListIngredients = ({ ingredients, title, clickIngredient, onClick }) => {
          </div>
       </>
    )
-}
+})
 
 ListIngredients.propTypes = {
    ingredients: PropTypes.arrayOf(PropTypes.object).isRequired,
