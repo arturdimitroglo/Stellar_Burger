@@ -4,7 +4,7 @@ import AppHeader from '../app-header/AppHeader'
 import BurgerIngredients from '../burger-ingredients/BurgerIngredients';
 import BurgerConstructor from '../burger-constructor/BurgerConstructor';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFeed } from '../../services/actions/GetFeed'
+import { GetFeed } from '../../services/actions/GetFeed'
 
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
 
   React.useEffect(
     () => {
-      dispatch(getFeed())
+      dispatch(GetFeed())
     }, [dispatch])
 
   return (
@@ -30,10 +30,10 @@ function App() {
         <div className='mt-10'>
           <p className='text text_type_main-large'>Соберите бургер</p>
 
-          <BurgerIngredients ingredients={ingredients} />
+          <BurgerIngredients />
         </div>
         <>
-          <BurgerConstructor data={ingredients} />
+          <BurgerConstructor />
         </>
       </div>)}
     </div>

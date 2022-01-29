@@ -1,8 +1,16 @@
-import { getFeedItem, getListIngredients, getListIngredientsFailed } from '..';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import {
+   getFeedItem,
+   getListIngredients,
+   getListIngredientsFailed,
+   getCreatedOrder,
+   sendingDataFailed,
+} from '../index';
 
 const URL = "https://norma.nomoreparties.space/api/ingredients";
 
-export function getFeed() {
+export function GetFeed() {
    return function (dispatch) {
       dispatch(getFeedItem())
       fetch(`${URL}`, {
@@ -23,3 +31,4 @@ export function getFeed() {
       )
    }
 }
+

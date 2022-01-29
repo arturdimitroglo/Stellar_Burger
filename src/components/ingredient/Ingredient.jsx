@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import style from './Ingredient.module.css'
+import style from './Ingredient.module.css';
+import { useDispatch } from 'react-redux';
+import { openIngredientDetails } from '../../services/index';
 
 
+const Ingredient = ({ ingredient, counter }) => {
 
-const Ingredient = ({ ingredient, counter, onClick }) => {
+   const dispatch = useDispatch()
 
+   const onClick = (elem) => {
+      dispatch(openIngredientDetails(elem))
+   }
 
    return (
       <>
@@ -27,7 +33,6 @@ const Ingredient = ({ ingredient, counter, onClick }) => {
 Ingredient.propTypes = {
    ingredient: PropTypes.object.isRequired,
    counter: PropTypes.number.isRequired,
-   onClick: PropTypes.func.isRequired
 }
 
 export default Ingredient;
