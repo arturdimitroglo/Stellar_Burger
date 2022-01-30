@@ -60,11 +60,24 @@ const counterSlice = createSlice({
       closeIngredientDetails(state) {
          state.modalIngredientDetailsActive = false;
          state.actualIngredient = {};
+      },
+      draggingAnElement(state, action) {
+         state.constructorIngredients = [...state.constructorIngredients, action.payload]
+      },
+      //удаление булки
+      deleteBun(state) {
+         state.constructorIngredients = state.constructorIngredients.filter(item => item.type !== 'bun')
+      },
+      deleteIngredient(state, action) {
+         state.constructorIngredients = state.constructorIngredients.filter((item, index) => index !== action.payload)
       }
    }
 })
 
 export const {
+   deleteIngredient,
+   deleteBun,
+   draggingAnElement,
    openCreatedOrder,
    closeCreatedOrder,
    getCreatedOrder,

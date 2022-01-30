@@ -1,35 +1,49 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import style from './BurgerConstructor.module.css';
 import { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import img from '../../images/bun-02.png';
 import Modal from '../modal/Modal.jsx';
 import OrderDetails from '../order-details/OrderDetails.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import PressureArea from '../pressure-area/PressureArea';
-import uuid from 'react-uuid';
+
+import { useDrop } from "react-dnd";
 import {
    getCreatedOrder,
    sendingDataFailed,
    openCreatedOrder,
+   deleteIngredient,
 } from '../../services/index';
 
+const BurgerConstructor = ({ onDropHandler }) => {
 
-const BurgerConstructor = () => {
-
-   const { 
+   const {
       constructorIngredients,
-      modalCreatedOrderActive, 
-      postFeedFailed, 
-      createdOrder ,
-      ingredients
+      modalCreatedOrderActive,
+      postFeedFailed,
    } = useSelector(state => state.counterSlice)
-   
+
    const dispatch = useDispatch()
+
+   const sum = useMemo(() =>
+      constructorIngredients.reduce((acc, cur) => cur.type === 'bun' ? acc + (cur.price * 2) : acc + cur.price, 0)
+      , [constructorIngredients])
+
+   const [, dropRef] = useDrop({
+      accept: 'ingredient',
+      drop(item) {
+         onDropHandler(item);
+      },
+   });
+
+   const onClose = (elem) => {
+      const del = constructorIngredients.indexOf(elem);
+      dispatch(deleteIngredient(del))
+   }
 
    const bun = constructorIngredients.find((item) => item.type === 'bun');
 
    const URL = "https://norma.nomoreparties.space/api/orders";
-   const ingredientsToSend = ingredients.map(item => {
+   const ingredientsToSend = constructorIngredients.map(item => {
       return item._id
    })
 
@@ -44,7 +58,6 @@ const BurgerConstructor = () => {
          },
       }).then(res => {
          return res.json()
-         
       }).then(res => {
          if (res && res.success) {
             dispatch(getCreatedOrder(res))
@@ -54,55 +67,75 @@ const BurgerConstructor = () => {
       }).then(res => {
          dispatch(openCreatedOrder())
       }).
-      catch(err =>
-         dispatch(sendingDataFailed())
-      )
+         catch(err =>
+            dispatch(sendingDataFailed())
+         )
    }
 
    return (
       <>
          <div className="mt-25">
-            <div className='m-4'>
+            <div className='m-4' ref={dropRef}>
                {constructorIngredients.length > 0 ?
                   (<>
-                     <div className='ml-20'>
-                        <ConstructorElement
-                           type="top"
-                           isLocked={true}
-                           text={`${bun.name} (верх)`}
-                           price={bun.price}
-                           thumbnail={bun.image}
-                        />
-                     </div>
-
+                     {bun ?
+                        <div className='ml-20'>
+                           <ConstructorElement
+                              key={bun.key}
+                              type="top"
+                              isLocked={true}
+                              text={`${bun.name} (верх)`}
+                              price={bun.price}
+                              thumbnail={bun.image}
+                           />
+                        </div> :
+                        <div className={`${style.bunTop} ml-20 mt-4 mb-4`}>
+                           <p className="text text_type_main-large">
+                              Добавте булку
+                           </p>
+                        </div>
+                     }
                      <ul className={style.elements}>
                         {constructorIngredients.map((item) => {
                            if (item.type === 'bun') {
-                              return null
+                              return (
+                                 <div></div>
+                              )
                            }
-                           return (
-                              <li key={uuid()} className='m-4'>
-                                 <DragIcon type="primary" />
-                                 <ConstructorElement
-                                    text={item.name}
-                                    price={item.price}
-                                    thumbnail={item.image}
-                                 />
-                              </li>
-                           )
+                           else {
+                              return (
+                                 <li key={item.uuid} className='m-4'>
+                                    <DragIcon type="primary" />
+                                    <ConstructorElement
+                                       text={item.name}
+                                       price={item.price}
+                                       thumbnail={item.image}
+                                       handleClose={(e) => onClose(item)}
+                                    />
+                                 </li>
+                              )
+                           }
                         })
                         }
                      </ul>
 
-                     <div className='ml-20'>
-                        <ConstructorElement
-                           type="bottom"
-                           isLocked={true}
-                           text={`${bun.name} (низ)`}
-                           price={bun.price}
-                           thumbnail={bun.image}
-                        />
-                     </div>
+                     {bun ?
+                        <div className='ml-20'>
+                           <ConstructorElement
+                              key={bun.key}
+                              type="bottom"
+                              isLocked={true}
+                              text={`${bun.name} (низ)`}
+                              price={bun.price}
+                              thumbnail={bun.image}
+                           />
+                        </div> :
+                        <div className={`${style.bunBot} ml-20 mt-4 mb-4`}>
+                           <p className="text text_type_main-large">
+                              Добавте булку
+                           </p>
+                        </div>
+                     }
                   </>)
                   : <PressureArea />
                }
@@ -110,7 +143,7 @@ const BurgerConstructor = () => {
 
             <div className={`${style.info} mt-10 mr-4`}>
                <div className={`${style.price} mr-10`}>
-                  <p className="text text_type_digits-medium m-2">10000</p>
+                  <p className="text text_type_digits-medium m-2">{sum}</p>
                   <CurrencyIcon type="primary" />
                </div>
                <div onClick={openOrderDetails}>

@@ -12,7 +12,7 @@ const ListIngredients = React.forwardRef(({ ingredients, title }, ref) => {
             {
                ingredients.map((element) => {
                   return (
-                     <Ingredient ingredient={element} counter={1} key={element._id} />
+                     <Ingredient ingredient={element} key={element._id} />
                   )
                })
             }
