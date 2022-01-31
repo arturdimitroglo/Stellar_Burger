@@ -1,27 +1,20 @@
 import React, { useMemo } from 'react';
 import style from './BurgerConstructor.module.css';
-import { DragIcon, ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/Modal.jsx';
 import OrderDetails from '../order-details/OrderDetails.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import PressureArea from '../pressure-area/PressureArea';
-
+import AddedIngredient from '../added-ingredient/AddedIngredient.jsx';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { sendOrder } from '../../services/actions/sendOrder';
 import { useDrop } from "react-dnd";
-import {
-   getCreatedOrder,
-   sendingDataFailed,
-   openCreatedOrder,
-   deleteIngredient,
-} from '../../services/index';
+import { sortConstructorIngredients, closeCreatedOrder } from '../../services/reducers/index';
 
 const BurgerConstructor = ({ onDropHandler }) => {
 
-   const {
-      constructorIngredients,
-      modalCreatedOrderActive,
-      postFeedFailed,
-   } = useSelector(state => state.counterSlice)
-
+   const { constructorIngredients, modalCreatedOrderActive, } = useSelector(state => state.counterSlice)
    const dispatch = useDispatch()
 
    const sum = useMemo(() =>
@@ -35,111 +28,68 @@ const BurgerConstructor = ({ onDropHandler }) => {
       },
    });
 
-   const onClose = (elem) => {
-      const del = constructorIngredients.indexOf(elem);
-      dispatch(deleteIngredient(del))
-   }
-
    const bun = constructorIngredients.find((item) => item.type === 'bun');
-
-   const URL = "https://norma.nomoreparties.space/api/orders";
-   const ingredientsToSend = constructorIngredients.map(item => {
-      return item._id
-   })
+   const bunHandler = (constructorIngredients, property, trueValue, falseValue) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
 
    const openOrderDetails = () => {
-      fetch(`${URL}`, {
-         method: 'POST',
-         body: JSON.stringify({
-            ingredients: ingredientsToSend
-         }),
-         headers: {
-            'Content-type': 'application/json'
-         },
-      }).then(res => {
-         return res.json()
-      }).then(res => {
-         if (res && res.success) {
-            dispatch(getCreatedOrder(res))
-         } else {
-            dispatch(sendingDataFailed())
-         }
-      }).then(res => {
-         dispatch(openCreatedOrder())
-      }).
-         catch(err =>
-            dispatch(sendingDataFailed())
-         )
+      const ingredientsId = constructorIngredients.map(ingredient => ingredient._id)
+      dispatch(sendOrder(ingredientsId))
+   }
+
+   const onClose = () => {
+      dispatch(closeCreatedOrder());
+   }
+
+   const moveCard = (dragIndex, hoverIndex) => {
+      const dragCard = constructorIngredients[dragIndex];
+      const newConstructorIngredients = [...constructorIngredients];
+      newConstructorIngredients.splice(dragIndex, 1);
+      newConstructorIngredients.splice(hoverIndex, 0, dragCard);
+      dispatch(sortConstructorIngredients(newConstructorIngredients));
    }
 
    return (
-      <>
-         <div className="mt-25">
-            <div className='m-4' ref={dropRef}>
-               {constructorIngredients.length > 0 ?
-                  (<>
-                     {bun ?
-                        <div className='ml-20'>
-                           <ConstructorElement
-                              key={bun.key}
-                              type="top"
-                              isLocked={true}
-                              text={`${bun.name} (верх)`}
-                              price={bun.price}
-                              thumbnail={bun.image}
-                           />
-                        </div> :
-                        <div className={`${style.bunTop} ml-20 mt-4 mb-4`}>
-                           <p className="text text_type_main-large">
-                              Добавте булку
-                           </p>
-                        </div>
-                     }
-                     <ul className={style.elements}>
-                        {constructorIngredients.map((item) => {
-                           if (item.type === 'bun') {
-                              return (
-                                 <div></div>
-                              )
-                           }
-                           else {
-                              return (
-                                 <li key={item.uuid} className='m-4'>
-                                    <DragIcon type="primary" />
-                                    <ConstructorElement
-                                       text={item.name}
-                                       price={item.price}
-                                       thumbnail={item.image}
-                                       handleClose={(e) => onClose(item)}
-                                    />
-                                 </li>
-                              )
-                           }
-                        })
-                        }
-                     </ul>
+      <DndProvider backend={HTML5Backend}>
+         <div className="mt-25" ref={dropRef}>
+            {(constructorIngredients.length > 0 && bun)
+               ? <div className='ml-20'>
+                  <ConstructorElement
+                     type="top"
+                     isLocked={true}
+                     text={bunHandler(constructorIngredients, 'name', '(верх)', 'Выберите булку')}
+                     price={bunHandler(constructorIngredients, 'price', '', '0')}
+                     thumbnail={bunHandler(constructorIngredients, 'image', '', '')}
+                  />
+               </div>
+               : <div className={`${style.bunTop} ml-20 mt-4 mb-4`}>
+                  <p className="text text_type_main-large">
+                     Добавте булку
+                  </p>
+               </div>
+            }
 
-                     {bun ?
-                        <div className='ml-20'>
-                           <ConstructorElement
-                              key={bun.key}
-                              type="bottom"
-                              isLocked={true}
-                              text={`${bun.name} (низ)`}
-                              price={bun.price}
-                              thumbnail={bun.image}
-                           />
-                        </div> :
-                        <div className={`${style.bunBot} ml-20 mt-4 mb-4`}>
-                           <p className="text text_type_main-large">
-                              Добавте булку
-                           </p>
-                        </div>
-                     }
-                  </>)
-                  : <PressureArea />
-               }
-            </div>
+            <ul className={`${style.elements}`}>
+               {constructorIngredients.map((item, index) =>
+                  item.type !== 'bun' && <AddedIngredient key={item.uuid} moveCard={moveCard} index={index} ingredient={item} id={`${item._id}${index}`} />
+               )}
+            </ul>
+
+            {(constructorIngredients.length > 0 && bun)
+               ? <div className='ml-20'>
+                  <ConstructorElement
+                     type="bottom"
+                     isLocked={true}
+                     text={bunHandler(constructorIngredients, 'name', '(низ)', 'Выберите булку')}
+                     price={bunHandler(constructorIngredients, 'price', '', '0')}
+                     thumbnail={bunHandler(constructorIngredients, 'image', '', '')}
+                  />
+               </div>
+               : <div className={`${style.bunBot} ml-20 mt-4 mb-4`}>
+                  <p className="text text_type_main-large">
+                     Добавте булку
+                  </p>
+               </div>
+            }
 
             <div className={`${style.info} mt-10 mr-4`}>
                <div className={`${style.price} mr-10`}>
@@ -153,20 +103,17 @@ const BurgerConstructor = ({ onDropHandler }) => {
                </div>
             </div>
          </div>
-         {!postFeedFailed && modalCreatedOrderActive &&
-            <Modal title=''>
+
+         {modalCreatedOrderActive &&
+            <Modal onClick={onClose} title=''>
                <OrderDetails />
             </Modal >
          }
-         {postFeedFailed && modalCreatedOrderActive &&
-            <Modal title=''>
-               <p className="text text_type_main-default text_color_inactive ">
-                  ОШИБКА! Перезагрузите страницу и попробуйте снова
-               </p>
-            </Modal >
-         }
-      </>
+      </DndProvider>
    )
 }
+BurgerConstructor.propTypes = {
+   onDropHandler: PropTypes.func.isRequired,
+};
 
 export default BurgerConstructor;

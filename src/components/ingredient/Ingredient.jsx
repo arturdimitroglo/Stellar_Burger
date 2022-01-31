@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './Ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { openIngredientDetails } from '../../services/index';
+import { openIngredientDetails } from '../../services/reducers/index';
 import { useDrag } from "react-dnd";
-import { draggingAnElement, deleteBun } from '../../services/index';
-import { v4 as generateUniqueId } from 'uuid';
+import { draggingAnElement } from '../../services/reducers/index';
 
 const Ingredient = ({ ingredient }) => {
    const { image, price, name, _id } = ingredient;
-   const {
-      constructorIngredients,
-      ingredients
-   } = useSelector(state => state.counterSlice)
+   const { constructorIngredients, ingredients } = useSelector(state => state.counterSlice)
 
    const dispatch = useDispatch()
 
@@ -21,7 +16,7 @@ const Ingredient = ({ ingredient }) => {
       dispatch(openIngredientDetails(elem))
    }
 
-   const [{ isDrag }, dragRef] = useDrag({
+   const [, dragRef] = useDrag({
       type: "ingredient",
       item: { _id },
       collect: monitor => ({
@@ -34,37 +29,39 @@ const Ingredient = ({ ingredient }) => {
    constructorIngredients.forEach(ingredient => ingredient.name === name && (ingredient.type === 'bun' ? counter += 2 : counter += 1))
 
    const handleChoseIngredient = (e) => {
-      e.preventDefault()
-      const targetIngredient = Object.assign({}, ingredients.find(ingredient => ingredient._id === e.currentTarget.dataset.id))
-      targetIngredient.uuid = generateUniqueId();
-      const selectedBun = constructorIngredients.find(ingredient => ingredient.type === 'bun')
+      e.preventDefault();
+      const targetIngredient = ingredients.find(
+         (ingredient) => ingredient._id === e.currentTarget.dataset.id
+      );
+      const selectedBun = constructorIngredients.find(
+         (ingredient) => ingredient.type === "bun"
+      );
+      const selectedBunIndex = constructorIngredients.indexOf(selectedBun);
 
-      if (targetIngredient.type === 'bun' && selectedBun) {
-         dispatch(deleteBun())
-         dispatch(draggingAnElement(targetIngredient));
+      if (targetIngredient.type === "bun" && selectedBun) {
+         const constructorIngredientsClone = constructorIngredients.slice();
+         constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
+         dispatch(draggingAnElement(constructorIngredientsClone));
       } else {
-         dispatch(draggingAnElement(targetIngredient));
+         dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
       }
    }
-//
-   return (
-      <>
-         <div className={`${style.item} mt-6 ml-4 mr-3 mb-10`} onContextMenu={handleChoseIngredient} data-id={_id} ref={dragRef} onClick={() => onClick(ingredient)}>
-            {counter > 0 && <Counter className={style.count} count={counter} size="default" />}
-            <img className={`${style.bun} ml-4 mr-4 mb-1`} src={image} alt="" />
-            <div className={`${style.price} mb-1`}>
-               <span className="text text_type_digits-default mr-2">{price}</span>
-               <CurrencyIcon type="primary" />
-            </div>
-            <h3 className={`${style.name} text text_type_main-default`}>{name}</h3>
-         </div>
-      </>
 
+   return (
+      <div className={`${style.item} mt-6 ml-4 mr-3 mb-10`} onContextMenu={handleChoseIngredient} data-id={_id} ref={dragRef} onClick={() => onClick(ingredient)}>
+         {counter > 0 && <Counter className={style.count} count={counter} size="default" />}
+         <img className={`${style.bun} ml-4 mr-4 mb-1`} src={image} alt="" />
+         <div className={`${style.price} mb-1`}>
+            <span className="text text_type_digits-default mr-2">{price}</span>
+            <CurrencyIcon type="primary" />
+         </div>
+         <h3 className={`${style.name} text text_type_main-default`}>{name}</h3>
+      </div>
    )
 }
 
 Ingredient.propTypes = {
-   ingredient: PropTypes.object.isRequired,
+   ingredient: PropTypes.object.isRequired
 }
 
 export default Ingredient;

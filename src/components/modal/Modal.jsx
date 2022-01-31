@@ -4,19 +4,10 @@ import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './Modal.module.css';
 import ModalOverlay from '../modal-overlay/ModalOverlay';
-import { closeIngredientDetails, closeCreatedOrder } from '../../services/index';
-import { useDispatch } from "react-redux";
 
 const modalRoot = document.getElementById("modals");
 
-function Modal({ title, children }) {
-
-   const dispatch = useDispatch()
-
-   const onClick = () => {
-      dispatch(closeIngredientDetails());
-      dispatch(closeCreatedOrder());
-   }
+function Modal({ title, children, onClick }) {
 
    React.useEffect(
       () => {
@@ -53,6 +44,7 @@ function Modal({ title, children }) {
 
 Modal.propTypes = {
    title: PropTypes.string,
+   onClick: PropTypes.func.isRequired,
    children: PropTypes.node.isRequired
 }
 

@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 
 
 const OrderDetails = () => {
-   const { createdOrder } = useSelector(state => state.counterSlice)
-   
+   const { createdOrder } = useSelector(state => state.counterSlice);
+
    return (
       <div className={`${style.modal}`}>
          <p className="text text_type_digits-large mb-8">{createdOrder.order.number}</p>
@@ -16,7 +16,6 @@ const OrderDetails = () => {
          </p>
 
          <img src={img} alt="" className={`${style.img} m-15`} />
-
 
          <p className="text text_type_main-default mb-2">
             Ваш заказ начали готовить

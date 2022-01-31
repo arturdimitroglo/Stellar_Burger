@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 as generateUniqueId } from 'uuid';
 
 const initialState = {
    ingredients: [],
@@ -6,11 +7,13 @@ const initialState = {
    actualIngredient: {},
    createdOrder: {},
 
+   orderFailed: false,
+   orderRequest: false,
+
    feedRequest: false,
    feedFailed: false,
 
    modalCreatedOrderActive: false,
-   postFeedFailed: false,
 
    current: 'bun',
    modalIngredientDetailsActive: false,
@@ -34,12 +37,20 @@ const counterSlice = createSlice({
          state.feedRequest = false;
       },
       //отправка заказа на сервер
-      getCreatedOrder(state, action) {
+      getCreatedOrder(state) {
+         state.orderRequest = true;
+         state.orderFailed = false;
+      },
+      getCreatedOrderSuccess(state, action) {
+         state.orderRequest = false;
          state.createdOrder = action.payload;
       },
-      sendingDataFailed(state) {
-         state.postFeedFailed = true;
-         state.modalCreatedOrderActive = true;
+      getCreatedOrderFailed(state) {
+         state.orderRequest = false;
+         state.orderFailed = true;
+      },
+      getDeleteCreatedOrder(state) {
+         state.constructorIngredients = [];
       },
       //работа с модальным окном заказа
       openCreatedOrder(state, action) {
@@ -61,13 +72,21 @@ const counterSlice = createSlice({
          state.modalIngredientDetailsActive = false;
          state.actualIngredient = {};
       },
+      //добавление ингредиента
       draggingAnElement(state, action) {
-         state.constructorIngredients = [...state.constructorIngredients, action.payload]
+         const modifiedIngredient = action.payload.map((ingredient) => {
+            const ingredientCopy = Object.assign({}, ingredient);
+            ingredientCopy.uuid = generateUniqueId();
+            return ingredientCopy;
+         });
+         state.constructorIngredients = modifiedIngredient
+
       },
-      //удаление булки
-      deleteBun(state) {
-         state.constructorIngredients = state.constructorIngredients.filter(item => item.type !== 'bun')
+      //для dnd
+      sortConstructorIngredients(state, action) {
+         state.constructorIngredients = action.payload
       },
+      //удаление ингредиента
       deleteIngredient(state, action) {
          state.constructorIngredients = state.constructorIngredients.filter((item, index) => index !== action.payload)
       }
@@ -75,6 +94,10 @@ const counterSlice = createSlice({
 })
 
 export const {
+   getCreatedOrderSuccess,
+   getCreatedOrderFailed,
+   getDeleteCreatedOrder,
+   sortConstructorIngredients,
    deleteIngredient,
    deleteBun,
    draggingAnElement,

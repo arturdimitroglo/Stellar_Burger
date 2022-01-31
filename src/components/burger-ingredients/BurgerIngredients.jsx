@@ -5,7 +5,7 @@ import ListIngredients from '../list-ingredients/ListIngredients';
 import Modal from '../modal/Modal.jsx';
 import IngredientDetails from '../ingredient-details/IngredientDetails.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentActive } from '../../services/index';
+import { currentActive, closeIngredientDetails } from '../../services/reducers/index';
 import useScroll from '../use-scroll/UseScroll';
 
 const BurgerIngredients = () => {
@@ -44,6 +44,9 @@ const BurgerIngredients = () => {
       dispatch(currentActive(elem))
    }
 
+   const closeDetails = () => {
+      dispatch(closeIngredientDetails())
+   }
 
    return (
       <>
@@ -67,7 +70,7 @@ const BurgerIngredients = () => {
             </div>
          </div>
          {modalIngredientDetailsActive &&
-            <Modal title='Детали ингредиента' >
+            <Modal title='Детали ингредиента' onClick={closeDetails} >
                <IngredientDetails />
             </Modal >
          }
