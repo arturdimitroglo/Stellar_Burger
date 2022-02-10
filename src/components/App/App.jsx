@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getFeed } from '../../services/actions/getFeed';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { draggingAnElement, deleteBun } from '../../services/reducers/index';
+import { draggingAnElement } from '../../services/reducers/index';
 
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
 
   return (
     <div className='App'>
+
       <AppHeader />
       {feedFailed && !feedRequest &&
         <p className={style.differentResult}>
