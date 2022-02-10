@@ -1,10 +1,12 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import style from './IngredientDetails.module.css';
+import { useSelector } from "react-redux";
 
 
-const IngredientDetails = ({ ingredientInfo }) => {
-   const { name, proteins, fat, carbohydrates, calories, image } = ingredientInfo;
+const IngredientDetails = () => {
+
+   const { actualIngredient } = useSelector(state => state.counterSlice)
+   const { name, proteins, fat, carbohydrates, calories, image } = actualIngredient;
 
    return (
       <div className={style.modal}>
@@ -35,10 +37,6 @@ const IngredientDetails = ({ ingredientInfo }) => {
 
       </div>
    )
-}
-
-IngredientDetails.propTypes = {
-   ingredientInfo: PropTypes.object.isRequired
 }
 
 export default IngredientDetails;

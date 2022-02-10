@@ -7,7 +7,7 @@ import ModalOverlay from '../modal-overlay/ModalOverlay';
 
 const modalRoot = document.getElementById("modals");
 
-function Modal({ title, onClick, children }) {
+function Modal({ title, children, onClick }) {
 
    React.useEffect(
       () => {
