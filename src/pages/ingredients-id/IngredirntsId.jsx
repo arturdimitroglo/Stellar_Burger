@@ -8,7 +8,7 @@ const IngredientsId = () => {
       <>
          <AppHeader />
          <div className={`${style.content} mt-30`}>
-            <p className="text text_type_main-large m-2">
+            <p className="text text_type_main-large p-2">
                Детали ингредиента
             </p>
             <IngredientDetails />
