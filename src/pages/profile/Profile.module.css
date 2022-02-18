@@ -1,0 +1,20 @@
+.container {
+   max-width: 1180px;
+   margin: auto;
+}
+
+.content {
+   display: grid;
+   align-items: center;
+   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+}
+
+.navigation {
+   width: 320px;
+   grid-column: 1 / 2
+}
+
+.edit {
+   display: flex;
+   flex-direction: column;
+}
