@@ -33,7 +33,9 @@ function Modal({ title, children, onClick }) {
                   <CloseIcon type="primary" />
                </button>
             </div>
-            <div className={style.content}>{children}</div>
+            <div className={style.content}>
+               {children}
+            </div>
          </div>
 
          <ModalOverlay onClick={onClick} />

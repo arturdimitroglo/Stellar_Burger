@@ -1,10 +1,10 @@
 import React from "react";
 import style from './IngredientDetails.module.css';
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 
 const IngredientDetails = () => {
-
    const { actualIngredient } = useSelector(state => state.counterSlice)
    const { name, proteins, fat, carbohydrates, calories, image } = actualIngredient;
 

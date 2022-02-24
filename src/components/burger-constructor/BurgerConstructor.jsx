@@ -11,11 +11,12 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { sendOrder } from '../../services/actions/sendOrder';
 import { useDrop } from "react-dnd";
 import { sortConstructorIngredients, closeCreatedOrder } from '../../services/reducers/index';
+import { useLocation, Navigate } from "react-router-dom";
 
 const BurgerConstructor = ({ onDropHandler }) => {
-
-   const { constructorIngredients, modalCreatedOrderActive, } = useSelector(state => state.counterSlice)
+   const { userInfo, constructorIngredients, modalCreatedOrderActive, } = useSelector(state => state.counterSlice)
    const dispatch = useDispatch()
+   const location = useLocation()
 
    const sum = useMemo(() =>
       constructorIngredients.reduce((acc, cur) => cur.type === 'bun' ? acc + (cur.price * 2) : acc + cur.price, 0)
@@ -104,10 +105,14 @@ const BurgerConstructor = ({ onDropHandler }) => {
             </div>
          </div>
 
-         {modalCreatedOrderActive &&
-            <Modal onClick={onClose} title=''>
+         {modalCreatedOrderActive && userInfo &&
+            (<Modal onClick={onClose} title=''>
                <OrderDetails />
-            </Modal >
+            </Modal >)
+         }
+
+         {modalCreatedOrderActive && !userInfo &&
+            (<Navigate to="/login" state={{ from: location }} />)
          }
       </DndProvider>
    )
