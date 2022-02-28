@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { sendUserData } from "../../services/actions/user";
 import style from './UserInfo.module.css';
+import { sendUserData } from '../../services/actions/user';
+
 
 const UserInfo = () => {
-   const { token, userInfo } = useSelector(state => state.counterSlice);
+   const { token, userInfo } = useSelector(state => state.userSlice);
    const dispatch = useDispatch();
 
    const [name, setName] = useState("");

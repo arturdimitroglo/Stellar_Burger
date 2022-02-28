@@ -3,11 +3,13 @@ import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burg
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { deleteIngredient } from '../../services/reducers/index';
+import { deleteIngredient } from '../../services/reducers/ingredient';
+import ingredientsPropTypes from '../../utils/types';
+
 
 function AddedIngredient({ ingredient, id, index, moveCard }) {
    const { name, price, image, } = ingredient;
-   const { constructorIngredients } = useSelector(state => state.counterSlice);
+   const { constructorIngredients } = useSelector(state => state.ingredientSlice);
    const dispatch = useDispatch();
    const ref = useRef(null);
 
@@ -75,7 +77,7 @@ function AddedIngredient({ ingredient, id, index, moveCard }) {
 }
 
 AddedIngredient.propTypes = {
-   ingredient: PropTypes.object.isRequired,
+   ingredient: ingredientsPropTypes.isRequired,
    id: PropTypes.string.isRequired,
    moveCard: PropTypes.func.isRequired,
    index: PropTypes.number.isRequired,

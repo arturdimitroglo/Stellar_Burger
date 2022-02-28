@@ -1,14 +1,13 @@
 import style from './Profile.module.css'
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../services/actions/user";
 import UserInfo from "../../components/user-info/UserInfo";
+import { logout } from '../../services/actions/user';
 
 
 const Profile = () => {
 
    const dispatch = useDispatch();
-
    const handleLogout = () => {
       const refreshToken = localStorage.getItem('refreshToken');
       dispatch(logout(refreshToken))

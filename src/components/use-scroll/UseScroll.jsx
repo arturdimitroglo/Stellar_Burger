@@ -17,5 +17,11 @@ export default function useScroll(parentRef, childRef, callback) {
       }, options)
 
       observer.current.observe(childRef.current)
+
+      return function () {
+         observer.current.unobserve(childRef.current)
+         ///не могу понять почему появляетмя ощибка !!!
+         //если знаете как сделать, напишите !!!
+      }
    }, [callback])
 }

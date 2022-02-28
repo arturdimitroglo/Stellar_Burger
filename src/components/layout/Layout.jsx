@@ -1,11 +1,11 @@
 import React from "react";
 import style from './Layout.module.css';
-import { Link, Outlet } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import AppHeader from '../app-header/AppHeader'
 
 function Layout() {
-   const { feedFailed, feedRequest, ingredients } = useSelector(state => state.counterSlice);
+   const { feedFailed, feedRequest, ingredients } = useSelector(state => state.ingredientSlice);
 
    return (
       <>
@@ -17,7 +17,7 @@ function Layout() {
 
          {feedRequest && !feedFailed && <p className={style.differentResult}>Загрузка...</p>}
 
-         { ingredients && !feedFailed && (
+         {ingredients && !feedFailed && (
             <Outlet />
          )}
       </>

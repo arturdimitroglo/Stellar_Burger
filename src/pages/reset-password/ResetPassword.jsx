@@ -3,7 +3,8 @@ import style from './ResetPassword.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { resetPassword } from '../../services/actions/user';
+import { resetPassword } from "../../services/actions/user";
+
 
 const ResetPassword = () => {
    const [code, setCode] = React.useState('')

@@ -5,14 +5,17 @@ import ListIngredients from '../list-ingredients/ListIngredients';
 import Modal from '../modal/Modal.jsx';
 import IngredientDetails from '../ingredient-details/IngredientDetails.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentActive, closeIngredientDetails } from '../../services/reducers/index';
 import useScroll from '../use-scroll/UseScroll';
+import { Navigate, useLocation } from 'react-router-dom';
+import { currentActive } from '../../services/reducers/ingredient';
+import { closeIngredientDetails } from '../../services/reducers/modal';
+
 
 const BurgerIngredients = () => {
 
-   const dispatch = useDispatch()
-
-   const { current, ingredients, modalIngredientDetailsActive } = useSelector(state => state.counterSlice)
+   const dispatch = useDispatch();
+   const { current, ingredients } = useSelector(state => state.ingredientSlice);
+   const { modalIngredientDetailsActive } = useSelector(state => state.modalSlice)
 
    const bunRef = useRef(null);
    const mainRef = useRef(null);
@@ -40,12 +43,16 @@ const BurgerIngredients = () => {
    const activeObserveMain = useScroll(parentRef, mainRef, () => activeTab('main'))
    const activeObserveSauce = useScroll(parentRef, sauceRef, () => activeTab('sauce'))
 
+   const location = useLocation();
+   const background = location.state && location.state.background;
+
    function activeTab(elem) {
       dispatch(currentActive(elem))
    }
 
    const closeDetails = () => {
       dispatch(closeIngredientDetails())
+      background && Navigate(-1);
    }
 
    return (

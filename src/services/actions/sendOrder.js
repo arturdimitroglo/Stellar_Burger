@@ -4,8 +4,8 @@ import {
   getCreatedOrderSuccess,
   getDeleteCreatedOrder,
   getCreatedOrderFailed,
-  openCreatedOrder
-} from '../reducers/index';
+} from '../reducers/ingredient';
+import { openCreatedOrder } from '../reducers/modal';
 
 export function sendOrder(ingredientsId) {
   return function (dispatch) {
@@ -17,14 +17,14 @@ export function sendOrder(ingredientsId) {
         } else {
           dispatch(getCreatedOrderFailed())
         }
-      }).
-      then(res => {
+      })
+      .then(res => {
         dispatch(getDeleteCreatedOrder())
-      }).
-      then(res => {
+      })
+      .then(res => {
         dispatch(openCreatedOrder())
-      }).
-      catch(err =>
+      })
+      .catch(err =>
         dispatch(getCreatedOrderFailed())
       )
   }

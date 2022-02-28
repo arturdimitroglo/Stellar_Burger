@@ -1,9 +1,9 @@
+import { tokenExpired, unauthorized } from '../../utils/baseURL';
 import mainApi from '../../utils/checkResponse';
 import {
    setForgotPassword,
    setForgotPasswordSuccess,
    setForgotPasswordFailed,
-   setForgotPasswordState,
    setResetPassword,
    setResetPasswordSuccess,
    setResetPasswordFailed,
@@ -25,16 +25,13 @@ import {
    setRefreshToken,
    setRefreshTokenSuccess,
    setRefreshTokenFailed,
-} from '../reducers/index';
+} from '../reducers/user';
 
 export const forgotPassword = (email) => {
    return (dispatch) => {
       dispatch(setForgotPassword())
 
       mainApi.sendEmail(email)
-         .then((res) => {
-            dispatch(setForgotPasswordState(res.success))
-         })
          .then(() => {
             dispatch(setForgotPasswordSuccess())
          })
@@ -49,10 +46,6 @@ export const resetPassword = (password, code) => {
       dispatch(setResetPassword())
 
       mainApi.resetPassword(password, code)
-         .then((res) => {
-            console.log(res)
-            // dispatch(setForgotPasswordState(false))
-         })
          .then(() => {
             dispatch(setResetPasswordSuccess())
          })
@@ -83,12 +76,12 @@ export const login = (email, password) => {
 
       mainApi.login(email, password)
          .then(res => {
-            
             dispatch(setLoginSuccess(res))
             localStorage.setItem('refreshToken', res.refreshToken)
          })
          .catch((err) => {
             dispatch(setLoginFailed())
+            console.log(err)
          })
    }
 }
@@ -102,6 +95,10 @@ export const sendUserData = (token, name, email, password) => {
             dispatch(sendUserInfoSuccess(res.user))
          })
          .catch((err) => {
+            if (err === tokenExpired ) {
+               dispatch(refreshToken(localStorage.getItem('refreshToken')))
+            }
+
             dispatch(sendUserInfoFailed())
          })
    }
@@ -113,8 +110,8 @@ export const logout = (refreshToken) => {
 
       mainApi.refreshToken(refreshToken)
          .then(() => {
-            localStorage.removeItem('refreshToken')
-            dispatch(setLogoutSuccess())
+            localStorage.removeItem('refreshToken');
+            dispatch(setLogoutSuccess());
          })
          .catch((err) => {
             dispatch(setLogoutFailed())
@@ -126,13 +123,15 @@ export const getUserData = (token) => {
    return (dispatch) => {
       dispatch(setGetUserInfo())
 
-      mainApi.getUser(token)
+      mainApi.getUserData(token)
          .then((res) => {
             dispatch(setGetUserInfoSuccess(res.user))
          })
          .catch((err) => {
+            if (err === tokenExpired || err === unauthorized) {
+               dispatch(refreshToken(localStorage.getItem('refreshToken')))
+            }
             dispatch(setGetUserInfoFailed())
-            dispatch(refreshToken(localStorage.getItem('refreshToken')))
          })
    }
 }
@@ -148,6 +147,9 @@ const refreshToken = (refreshToken) => {
          })
          .catch((err) => {
             dispatch(setRefreshTokenFailed())
+            console.log(`${err} не авторизован`)
          })
    }
 }
+
+// Планирую переписать на axios

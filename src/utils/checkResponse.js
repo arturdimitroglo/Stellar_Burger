@@ -23,7 +23,7 @@ class Api {
     const burgerData = {
       'ingredients': ingredientsIds
     }
-
+    
     return fetch(`${this._baseUrl}/orders`, {
       method: 'POST',
       headers: {
@@ -85,7 +85,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  getUser(token) {
+  getUserData(token) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "GET",
       headers: {

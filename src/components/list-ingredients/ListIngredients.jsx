@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/Ingredient';
 import style from './ListIngredients.module.css'
+import ingredientsPropTypes from '../../utils/types';
 
 const ListIngredients = React.forwardRef(({ ingredients, title }, ref) => {
    return (
@@ -22,7 +23,7 @@ const ListIngredients = React.forwardRef(({ ingredients, title }, ref) => {
 })
 
 ListIngredients.propTypes = {
-   ingredients: PropTypes.arrayOf(PropTypes.object).isRequired,
+   ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired,
    title: PropTypes.string.isRequired,
 }
 

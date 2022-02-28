@@ -3,7 +3,7 @@ import style from './Registration.module.css'
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registration } from '../../services/actions/user';
+import { registration } from "../../services/actions/user";
 
 const Registration = () => {
    const [email, setEmail] = useState('')

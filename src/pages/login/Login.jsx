@@ -3,15 +3,15 @@ import style from './Login.module.css'
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { login } from '../../services/actions/user';
+import { login } from "../../services/actions/user";
 
 const Login = () => {
    const [email, setEmail] = React.useState('');
    const [password, setPassword] = useState('');
    const inputRef = React.useRef(null);
    const dispatch = useDispatch();
-   let navigate = useNavigate();
-   
+   const navigate = useNavigate();
+
    const onChange = e => {
       setPassword(e.target.value)
    }
@@ -22,9 +22,9 @@ const Login = () => {
       if (!email || !password) {
          return;
       }
-
+      navigate("/");
       dispatch(login(email, password));
-      navigate(-1);
+
    }
 
 

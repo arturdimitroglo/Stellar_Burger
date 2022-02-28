@@ -3,13 +3,15 @@ import style from './ForgotPassword.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { forgotPassword } from '../../services/actions/user';
+import { forgotPassword } from "../../services/actions/user";
+
+
 
 const ForgotPassword = () => {
    const [email, setEmail] = React.useState('')
    const inputRef = React.useRef(null)
    const dispatch = useDispatch();
-   let navigate = useNavigate();
+   const navigate = useNavigate();
 
    const onIconClick = () => {
       setTimeout(() => inputRef.current.focus(), 0)

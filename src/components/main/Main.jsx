@@ -5,11 +5,12 @@ import BurgerConstructor from '../burger-constructor/BurgerConstructor';
 import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { draggingAnElement } from '../../services/reducers/index';
+import { draggingAnElement } from '../../services/reducers/ingredient';
+
 
 const Main = () => {
    const dispatch = useDispatch()
-   const { ingredients, constructorIngredients } = useSelector(state => state.counterSlice);
+   const { ingredients, constructorIngredients } = useSelector(state => state.ingredientSlice);
    
    const handleDrop = (item) => {
       const targetIngredient = ingredients.find(ingredient => ingredient._id === item._id)

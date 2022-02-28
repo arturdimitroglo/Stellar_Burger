@@ -1,5 +1,4 @@
 import style from './NotFound404.module.css';
-import AppHeader from '../../components/app-header/AppHeader';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import pageNotFound from "../../images/404 Error-bro.png";

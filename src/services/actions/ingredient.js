@@ -3,7 +3,7 @@ import {
    getFeedItem,
    getListIngredients,
    getListIngredientsFailed,
-} from '../reducers/index';
+} from '../reducers/ingredient';
 
 export function getFeed() {
    return function (dispatch) {
