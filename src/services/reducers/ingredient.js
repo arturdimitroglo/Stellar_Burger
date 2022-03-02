@@ -9,8 +9,6 @@ const initialState = {
    feedRequest: false,
    feedFailed: false,
 
-   current: 'bun',
-
    orderFailed: false,
    orderRequest: false,
 }
@@ -32,7 +30,6 @@ const ingredientSlice = createSlice({
          state.feedFailed = true;
          state.feedRequest = false;
       },
-
       //отправка заказа на сервер
       getCreatedOrder(state) {
          state.orderRequest = true;
@@ -48,11 +45,6 @@ const ingredientSlice = createSlice({
       },
       getDeleteCreatedOrder(state) {
          state.constructorIngredients = [];
-      },
-
-      //активный Tab
-      currentActive(state, action) {
-         state.current = action.payload;
       },
       //добавление ингредиента
       draggingAnElement(state, action) {

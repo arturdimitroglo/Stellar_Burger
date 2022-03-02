@@ -6,5 +6,5 @@ import modalSlice from './modal'
 export const rootReducer = combineReducers({
    userSlice,
    ingredientSlice,
-   modalSlice
+   modalSlice,
 });

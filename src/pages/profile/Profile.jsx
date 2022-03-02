@@ -6,8 +6,8 @@ import { logout } from '../../services/actions/user';
 
 
 const Profile = () => {
-
    const dispatch = useDispatch();
+
    const handleLogout = () => {
       const refreshToken = localStorage.getItem('refreshToken');
       dispatch(logout(refreshToken))

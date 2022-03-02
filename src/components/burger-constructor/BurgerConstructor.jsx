@@ -36,8 +36,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
    const bunHandler = (constructorIngredients, property, trueValue, falseValue) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
 
    const openOrderDetails = () => {
-      const ingredientsId = constructorIngredients.map(ingredient => ingredient._id)
-
+      const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
 
       if (userInfo) {
          dispatch(sendOrder(ingredientsId))

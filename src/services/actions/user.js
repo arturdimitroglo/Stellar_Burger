@@ -1,6 +1,7 @@
 import { tokenExpired, unauthorized } from '../../utils/baseURL';
 import mainApi from '../../utils/checkResponse';
 import {
+   setForgotPasswordState,
    setForgotPassword,
    setForgotPasswordSuccess,
    setForgotPasswordFailed,
@@ -33,7 +34,8 @@ export const forgotPassword = (email) => {
 
       mainApi.sendEmail(email)
          .then(() => {
-            dispatch(setForgotPasswordSuccess())
+            dispatch(setForgotPasswordSuccess());
+            dispatch(setForgotPasswordState(true))
          })
          .catch((err) => {
             dispatch(setForgotPasswordFailed())
@@ -47,7 +49,8 @@ export const resetPassword = (password, code) => {
 
       mainApi.resetPassword(password, code)
          .then(() => {
-            dispatch(setResetPasswordSuccess())
+            dispatch(setResetPasswordSuccess());
+            dispatch(setForgotPasswordState(false))
          })
          .catch((err) => {
             setResetPasswordFailed();
@@ -147,7 +150,6 @@ const refreshToken = (refreshToken) => {
          })
          .catch((err) => {
             dispatch(setRefreshTokenFailed())
-            console.log(`${err} не авторизован`)
          })
    }
 }

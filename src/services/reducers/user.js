@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { v4 as generateUniqueId } from 'uuid';
 
 const initialState = {
    forgotPasswordRequest: false,
@@ -36,6 +35,9 @@ const userSlice = createSlice({
    name: 'burger',
    initialState,
    reducers: {
+      setForgotPasswordState(state, action) {
+         state.isForgotPassword = action.payload
+      },
       //выход
       setLogout(state) {
          state.logoutRequest = true;
@@ -147,6 +149,7 @@ const userSlice = createSlice({
 })
 
 export const {
+   setForgotPasswordState,
    setRefreshToken,
    setRefreshTokenSuccess,
    setRefreshTokenFailed,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import style from './ForgotPassword.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from "react-router-dom";
@@ -8,8 +8,9 @@ import { forgotPassword } from "../../services/actions/user";
 
 
 const ForgotPassword = () => {
-   const [email, setEmail] = React.useState('')
-   const inputRef = React.useRef(null)
+   const [email, setEmail] = useState('')
+   const inputRef = useRef(null)
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
 

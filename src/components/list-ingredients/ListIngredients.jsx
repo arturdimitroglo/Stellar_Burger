@@ -4,10 +4,10 @@ import Ingredient from '../ingredient/Ingredient';
 import style from './ListIngredients.module.css'
 import ingredientsPropTypes from '../../utils/types';
 
-const ListIngredients = React.forwardRef(({ ingredients, title }, ref) => {
+const ListIngredients = ({ ingredients, title , id}) => {
    return (
       <>
-         <div className='text text_type_main-medium mt-10 mb-6' ref={ref}>{title}</div>
+         <div className='text text_type_main-medium mt-10 mb-6' id={id}>{title}</div>
 
          <div className={style.colomn}>
             {
@@ -20,11 +20,12 @@ const ListIngredients = React.forwardRef(({ ingredients, title }, ref) => {
          </div>
       </>
    )
-})
+}
 
 ListIngredients.propTypes = {
    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired,
    title: PropTypes.string.isRequired,
+   id: PropTypes.string.isRequired,
 }
 
 export default ListIngredients;

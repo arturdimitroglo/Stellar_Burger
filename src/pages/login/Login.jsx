@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from './Login.module.css'
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../services/actions/user";
 
 const Login = () => {
-   const [email, setEmail] = React.useState('');
+   const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
-   const inputRef = React.useRef(null);
+   
+   const { userInfo } = useSelector(state => state.userSlice);
+
+   const inputRef = useRef(null);
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
+   const location = useLocation();
 
    const onChange = e => {
       setPassword(e.target.value)
@@ -22,11 +27,15 @@ const Login = () => {
       if (!email || !password) {
          return;
       }
-      navigate("/");
+      navigate(-1);
       dispatch(login(email, password));
-
    }
 
+   useEffect(() => {
+      if (userInfo) {
+         (location.state && location.state.from) ? navigate(location.state.from.pathname) : navigate('/');
+      }
+   }, [userInfo, navigate, location])
 
    return (
       <>

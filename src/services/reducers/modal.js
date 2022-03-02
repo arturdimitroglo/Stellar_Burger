@@ -3,6 +3,7 @@ import { v4 as generateUniqueId } from 'uuid';
 
 const initialState = {
    actualIngredient: {},
+   
    modalCreatedOrderActive: false,
    modalIngredientDetailsActive: false,
 }

@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from './ResetPassword.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/actions/user";
 
 
 const ResetPassword = () => {
-   const [code, setCode] = React.useState('')
-   const [password, setPassword] = useState('')
-   const [typeInput, setTypeInput] = useState('password')
-   const [icon, setIcon] = useState('ShowIcon')
-
-   const inputRef = React.useRef(null)
+   const [code, setCode] = useState('');
+   const [password, setPassword] = useState('');
+   const [typeInput, setTypeInput] = useState('password');
+   const [icon, setIcon] = useState('ShowIcon');
+   const { userInfo, isForgotPassword } = useSelector(state => state.userSlice);
+   const inputRef = useRef(null);
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
+   const location = useLocation();
 
    const onIconClick = () => {
       setTimeout(() => inputRef.current.focus(), 0)
@@ -29,12 +30,20 @@ const ResetPassword = () => {
       if (!code || !password) {
          return;
       }
-      
+
       dispatch(resetPassword(password, code));
       setCode("");
       setPassword("");
       navigate('/');
    }
+
+   useEffect(() => {
+      if (userInfo) {
+         (location.state && location.state.from) ? navigate(location.state.from.pathname) : navigate('/');
+      } else {
+         !isForgotPassword && navigate('/forgot-password');
+      }
+   }, [userInfo, navigate, location, isForgotPassword])
 
    return (
       <>
