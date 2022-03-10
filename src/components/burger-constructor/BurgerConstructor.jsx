@@ -8,14 +8,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddedIngredient from '../added-ingredient/AddedIngredient.jsx';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { sendOrder } from '../../services/actions/sendOrder';
 import { useDrop } from "react-dnd";
-import { sortConstructorIngredients, closeCreatedOrder } from '../../services/reducers/index';
+import { useNavigate } from "react-router-dom";
+import { sendOrder } from '../../services/actions/sendOrder';
+import { closeCreatedOrder } from '../../services/reducers/modal';
+import { sortConstructorIngredients } from '../../services/reducers/ingredient';
 
 const BurgerConstructor = ({ onDropHandler }) => {
-
-   const { constructorIngredients, modalCreatedOrderActive, } = useSelector(state => state.counterSlice)
+   const { userInfo } = useSelector(state => state.userSlice)
+   const { constructorIngredients } = useSelector(state => state.ingredientSlice)
+   const { modalCreatedOrderActive } = useSelector(state => state.modalSlice)
    const dispatch = useDispatch()
+   const navigate = useNavigate();
 
    const sum = useMemo(() =>
       constructorIngredients.reduce((acc, cur) => cur.type === 'bun' ? acc + (cur.price * 2) : acc + cur.price, 0)
@@ -32,8 +36,13 @@ const BurgerConstructor = ({ onDropHandler }) => {
    const bunHandler = (constructorIngredients, property, trueValue, falseValue) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
 
    const openOrderDetails = () => {
-      const ingredientsId = constructorIngredients.map(ingredient => ingredient._id)
-      dispatch(sendOrder(ingredientsId))
+      const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
+
+      if (userInfo) {
+         dispatch(sendOrder(ingredientsId))
+      } else {
+         navigate('/login')
+      }
    }
 
    const onClose = () => {
@@ -104,10 +113,10 @@ const BurgerConstructor = ({ onDropHandler }) => {
             </div>
          </div>
 
-         {modalCreatedOrderActive &&
-            <Modal onClick={onClose} title=''>
+         {modalCreatedOrderActive && userInfo &&
+            (<Modal onClick={onClose} title=''>
                <OrderDetails />
-            </Modal >
+            </Modal >)
          }
       </DndProvider>
    )

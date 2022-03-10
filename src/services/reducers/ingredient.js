@@ -4,22 +4,16 @@ import { v4 as generateUniqueId } from 'uuid';
 const initialState = {
    ingredients: [],
    constructorIngredients: [],
-   actualIngredient: {},
    createdOrder: {},
-
-   orderFailed: false,
-   orderRequest: false,
-
+   
    feedRequest: false,
    feedFailed: false,
 
-   modalCreatedOrderActive: false,
-
-   current: 'bun',
-   modalIngredientDetailsActive: false,
+   orderFailed: false,
+   orderRequest: false,
 }
 
-const counterSlice = createSlice({
+const ingredientSlice = createSlice({
    name: 'burger',
    initialState,
    reducers: {
@@ -52,26 +46,6 @@ const counterSlice = createSlice({
       getDeleteCreatedOrder(state) {
          state.constructorIngredients = [];
       },
-      //работа с модальным окном заказа
-      openCreatedOrder(state, action) {
-         state.modalCreatedOrderActive = true;
-      },
-      closeCreatedOrder(state) {
-         state.modalCreatedOrderActive = false;
-      },
-      //активный Tab
-      currentActive(state, action) {
-         state.current = action.payload;
-      },
-      //работа с модальным окном подробностей ингредиента
-      openIngredientDetails(state, action) {
-         state.modalIngredientDetailsActive = true;
-         state.actualIngredient = action.payload;
-      },
-      closeIngredientDetails(state) {
-         state.modalIngredientDetailsActive = false;
-         state.actualIngredient = {};
-      },
       //добавление ингредиента
       draggingAnElement(state, action) {
          const modifiedIngredient = action.payload.map((ingredient) => {
@@ -79,37 +53,31 @@ const counterSlice = createSlice({
             ingredientCopy.uuid = generateUniqueId();
             return ingredientCopy;
          });
-         state.constructorIngredients = modifiedIngredient
-
+         state.constructorIngredients = modifiedIngredient;
       },
       //для dnd
       sortConstructorIngredients(state, action) {
-         state.constructorIngredients = action.payload
+         state.constructorIngredients = action.payload;
       },
       //удаление ингредиента
       deleteIngredient(state, action) {
-         state.constructorIngredients = state.constructorIngredients.filter((item, index) => index !== action.payload)
+         state.constructorIngredients = state.constructorIngredients.filter((item, index) => index !== action.payload);
       }
    }
 })
 
 export const {
+   getCreatedOrder,
    getCreatedOrderSuccess,
    getCreatedOrderFailed,
    getDeleteCreatedOrder,
    sortConstructorIngredients,
    deleteIngredient,
-   deleteBun,
    draggingAnElement,
-   openCreatedOrder,
-   closeCreatedOrder,
-   getCreatedOrder,
-   sendingDataFailed,
-   closeIngredientDetails,
-   openIngredientDetails,
    currentActive,
    getFeedItem,
    getListIngredients,
    getListIngredientsFailed
-} = counterSlice.actions
-export default counterSlice.reducer
+} = ingredientSlice.actions;
+
+export default ingredientSlice.reducer

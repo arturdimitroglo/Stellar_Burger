@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("modals");
 
 function Modal({ title, children, onClick }) {
 
-   React.useEffect(
+   useEffect(
       () => {
          const pressEcs = (e) => {
             e.key === 'Escape' && onClick()
@@ -19,8 +19,7 @@ function Modal({ title, children, onClick }) {
          return () => {
             document.removeEventListener('keydown', pressEcs)
          }
-      }, [onClick]
-   )
+      }, [onClick])
 
    return ReactDOM.createPortal(
       <>
@@ -33,7 +32,9 @@ function Modal({ title, children, onClick }) {
                   <CloseIcon type="primary" />
                </button>
             </div>
-            <div className={style.content}>{children}</div>
+            <div className={style.content}>
+               {children}
+            </div>
          </div>
 
          <ModalOverlay onClick={onClick} />

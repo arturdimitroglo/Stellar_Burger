@@ -2,13 +2,15 @@ import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './Ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { openIngredientDetails } from '../../services/reducers/index';
 import { useDrag } from "react-dnd";
-import { draggingAnElement } from '../../services/reducers/index';
+import ingredientsPropTypes from '../../utils/types';
+import { openIngredientDetails } from '../../services/reducers/modal';
+import { draggingAnElement } from '../../services/reducers/ingredient';
+
 
 const Ingredient = ({ ingredient }) => {
    const { image, price, name, _id } = ingredient;
-   const { constructorIngredients, ingredients } = useSelector(state => state.counterSlice)
+   const { constructorIngredients, ingredients } = useSelector(state => state.ingredientSlice)
 
    const dispatch = useDispatch()
 
@@ -61,7 +63,7 @@ const Ingredient = ({ ingredient }) => {
 }
 
 Ingredient.propTypes = {
-   ingredient: PropTypes.object.isRequired
+   ingredient: ingredientsPropTypes.isRequired
 }
 
 export default Ingredient;

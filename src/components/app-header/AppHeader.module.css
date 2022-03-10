@@ -23,7 +23,7 @@
    cursor: pointer;
 }
 
-.link {
+.link_active {
    display: flex;
    flex-direction: row;
    align-items: center;
@@ -31,7 +31,7 @@
    color: #f2f2f3;
 }
 
-.link_inactive {
+.link {
    display: flex;
    text-decoration: none;
    align-items: center;

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 
 const OrderDetails = () => {
-   const { createdOrder } = useSelector(state => state.counterSlice);
+   const { createdOrder } = useSelector(state => state.ingredientSlice);
 
    return (
       <div className={`${style.modal}`}>
