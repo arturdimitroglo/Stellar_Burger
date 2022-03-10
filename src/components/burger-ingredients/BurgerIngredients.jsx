@@ -22,8 +22,6 @@ const BurgerIngredients = () => {
    const main = useMemo(() => ingredients.filter(elem => elem.type === 'main'), [ingredients]);
    const sauce = useMemo(() => ingredients.filter(elem => elem.type === 'sauce'), [ingredients]);
 
-
-
    const scrollHandler = (evt) => {
       evt.target.addEventListener('scroll', function () {
          setCurrent(compareCoords(style.tab))

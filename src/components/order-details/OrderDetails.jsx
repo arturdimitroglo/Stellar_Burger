@@ -1,6 +1,6 @@
 import React from "react";
 import style from './OrderDetails.module.css';
-import img from '../../images/done.png';
+import img from '../../images/done.gif';
 import { useSelector } from "react-redux";
 
 
