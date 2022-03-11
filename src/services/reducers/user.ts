@@ -1,6 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IUserData } from '../../utils/types';
 
-const initialState = {
+interface ICounterState {
+   forgotPasswordRequest: boolean;
+   forgotPasswordFailed: boolean;
+   isForgotPassword: boolean;
+   resetPasswordRequest: boolean;
+   resetPasswordFailed: boolean;
+   registrationRequest: boolean;
+   registrationFailed: boolean;
+   token: string ;
+   loginRequest: boolean;
+   loginFailed: boolean;
+   sendUserInfoRequest: boolean;
+   sendUserInfoFailed: boolean;
+   userInfo: object | null;
+   logoutRequest: boolean;
+   logoutFailed: boolean;
+   getUserInfoRequest: boolean;
+   getUserInfoFailed: boolean;
+   refreshTokenRequest: boolean;
+   refreshTokenFailed: boolean;
+}
+
+const initialState: ICounterState = {
    forgotPasswordRequest: false,
    forgotPasswordFailed: false,
    isForgotPassword: false,
@@ -11,7 +34,7 @@ const initialState = {
    registrationRequest: false,
    registrationFailed: false,
 
-   token: null,
+   token: '',
 
    loginRequest: false,
    loginFailed: false,
@@ -35,7 +58,7 @@ const userSlice = createSlice({
    name: 'burger',
    initialState,
    reducers: {
-      setForgotPasswordState(state, action) {
+      setForgotPasswordState(state, action: PayloadAction<boolean>) {
          state.isForgotPassword = action.payload
       },
       //выход
@@ -45,32 +68,31 @@ const userSlice = createSlice({
       },
       setLogoutSuccess(state) {
          state.logoutRequest = false;
-         state.token = null;
+         state.token = '';
          state.userInfo = null;
       },
       setLogoutFailed(state) {
          state.logoutRequest = false;
          state.logoutFailed = true;
       },
-
+      //токен
       setRefreshToken(state) {
          state.refreshTokenRequest = true;
          state.refreshTokenFailed = false;
       },
-      setRefreshTokenSuccess(state, action) {
+      setRefreshTokenSuccess(state, action: PayloadAction<IUserData>) {
          state.refreshTokenRequest = false;
-         state.token = action.payload;
+         state.token = action.payload.accessToken;
       },
       setRefreshTokenFailed(state) {
          state.refreshTokenRequest = false;
          state.refreshTokenFailed = true;
       },
-
       setGetUserInfo(state) {
          state.getUserInfoRequest = true;
          state.getUserInfoFailed = false;
       },
-      setGetUserInfoSuccess(state, action) {
+      setGetUserInfoSuccess(state, action: PayloadAction<object | null>) {
          state.getUserInfoRequest = false;
          state.userInfo = action.payload;
       },
@@ -78,26 +100,25 @@ const userSlice = createSlice({
          state.getUserInfoRequest = false;
          state.getUserInfoFailed = true;
       },
-
+      //данные в профиле
       sendUserInfo(state) {
          state.sendUserInfoRequest = true;
          state.sendUserInfoFailed = false;
       },
-      sendUserInfoSuccess(state, action) {
-         state.state.sendUserInfoRequest = false;
+      sendUserInfoSuccess(state, action: PayloadAction<object | null>) {
+         state.sendUserInfoRequest = false;
          state.userInfo = action.payload;
       },
       sendUserInfoFailed(state) {
          state.sendUserInfoRequest = false;
          state.sendUserInfoFailed = true;
       },
-
       //вход
       setLogin(state) {
          state.loginRequest = true;
          state.loginFailed = false;
       },
-      setLoginSuccess(state, action) {
+      setLoginSuccess(state, action: PayloadAction<IUserData>) {
          state.loginRequest = false;
          state.token = action.payload.accessToken;
          state.userInfo = action.payload.user;
@@ -118,7 +139,6 @@ const userSlice = createSlice({
          state.forgotPasswordFailed = true;
          state.forgotPasswordRequest = false;
       },
-
       //изменение пароля
       setResetPassword(state) {
          state.resetPasswordRequest = true;
@@ -131,15 +151,14 @@ const userSlice = createSlice({
          state.resetPasswordFailed = true;
          state.resetPasswordRequest = false;
       },
-
       //регистрация
       registrationUser(state) {
          state.registrationRequest = true;
          state.registrationFailed = false;
       },
-      registrationUserSuccess(state, action) {
+      registrationUserSuccess(state, action: PayloadAction<IUserData> ) {
          state.registrationRequest = false;
-         state.token = action.payload;
+         state.token = action.payload.accessToken;
       },
       registrationUserFailed(state) {
          state.registrationRequest = false;

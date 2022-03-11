@@ -64,7 +64,7 @@ export const registration = (email, name, password) => {
 
       mainApi.register(email, name, password)
          .then(res => {
-            dispatch(registrationUserSuccess(res.accessToken))
+            dispatch(registrationUserSuccess(res))
             localStorage.setItem('refreshToken', res.refreshToken)
          })
          .catch((err) => {
@@ -146,7 +146,7 @@ const refreshToken = (refreshToken) => {
       mainApi.refreshToken(refreshToken)
          .then((res) => {
             localStorage.setItem('refreshToken', res.refreshToken)
-            dispatch(setRefreshTokenSuccess(res.accessToken))
+            dispatch(setRefreshTokenSuccess(res))
          })
          .catch((err) => {
             dispatch(setRefreshTokenFailed())

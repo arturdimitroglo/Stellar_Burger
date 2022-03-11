@@ -62,7 +62,7 @@ const ForgotPassword = () => {
          <div className={`${style.edit} mt-10`}>
             <p className="text text_type_main-default text_color_inactive ">
                Вспомнили пароль?
-               <Link className={style.link} to="/forgot-password">
+               <Link className={style.link} to="/login">
                   Войти
                </Link>
             </p>

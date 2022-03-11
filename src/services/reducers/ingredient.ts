@@ -1,11 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as generateUniqueId } from 'uuid';
+import { IIngredient } from '../../utils/types';
 
-const initialState = {
+
+interface ICounterState {
+   ingredients: Array<object>;
+   constructorIngredients: Array<object>;
+   createdOrder: object | null;
+   feedRequest: boolean;
+   feedFailed: boolean;
+   orderFailed: boolean;
+   orderRequest: boolean;
+}
+
+const initialState: ICounterState = {
    ingredients: [],
    constructorIngredients: [],
-   createdOrder: {},
-   
+   createdOrder: null,
+
    feedRequest: false,
    feedFailed: false,
 
@@ -22,7 +34,7 @@ const ingredientSlice = createSlice({
          state.feedRequest = true;
          state.feedFailed = false;
       },
-      getListIngredients(state, action) {
+      getListIngredients(state, action: PayloadAction<Array<object>>) {
          state.ingredients = action.payload;
          state.feedRequest = false;
       },
@@ -35,7 +47,7 @@ const ingredientSlice = createSlice({
          state.orderRequest = true;
          state.orderFailed = false;
       },
-      getCreatedOrderSuccess(state, action) {
+      getCreatedOrderSuccess(state, action: PayloadAction<object | null>) {
          state.orderRequest = false;
          state.createdOrder = action.payload;
       },
@@ -47,20 +59,21 @@ const ingredientSlice = createSlice({
          state.constructorIngredients = [];
       },
       //добавление ингредиента
-      draggingAnElement(state, action) {
+      draggingAnElement(state, action: PayloadAction<Array<IIngredient>>) {
          const modifiedIngredient = action.payload.map((ingredient) => {
             const ingredientCopy = Object.assign({}, ingredient);
             ingredientCopy.uuid = generateUniqueId();
             return ingredientCopy;
          });
          state.constructorIngredients = modifiedIngredient;
+         
       },
       //для dnd
-      sortConstructorIngredients(state, action) {
+      sortConstructorIngredients(state, action: PayloadAction<Array<IIngredient>>) {
          state.constructorIngredients = action.payload;
       },
       //удаление ингредиента
-      deleteIngredient(state, action) {
+      deleteIngredient(state, action: PayloadAction<number>) {
          state.constructorIngredients = state.constructorIngredients.filter((item, index) => index !== action.payload);
       }
    }
@@ -74,7 +87,6 @@ export const {
    sortConstructorIngredients,
    deleteIngredient,
    draggingAnElement,
-   currentActive,
    getFeedItem,
    getListIngredients,
    getListIngredientsFailed

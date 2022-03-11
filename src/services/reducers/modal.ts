@@ -1,7 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { v4 as generateUniqueId } from 'uuid';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface ICounterState {
+   actualIngredient: object | null;
+   modalCreatedOrderActive: boolean;
+   modalIngredientDetailsActive: boolean;
+}
+
+const initialState: ICounterState = {
    actualIngredient: {},
    
    modalCreatedOrderActive: false,
@@ -13,7 +18,7 @@ const modalSlice = createSlice({
    initialState,
    reducers: {
       //работа с модальным окном заказа
-      openCreatedOrder(state, action) {
+      openCreatedOrder(state) {
          state.modalCreatedOrderActive = true;
       },
       closeCreatedOrder(state) {
@@ -21,7 +26,7 @@ const modalSlice = createSlice({
       },
       
       //работа с модальным окном подробностей ингредиента
-      openIngredientDetails(state, action) {
+      openIngredientDetails(state, action: PayloadAction<object | null>) {
          state.actualIngredient = action.payload;
          state.modalIngredientDetailsActive = true;
       },
