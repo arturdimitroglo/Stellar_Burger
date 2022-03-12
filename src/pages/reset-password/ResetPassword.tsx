@@ -1,30 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import style from './ResetPassword.module.css'
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/actions/user";
+import { useAppSelector } from "../../hook/hook";
+import { LocationState } from "../../utils/types";
 
 
-const ResetPassword = () => {
+const ResetPassword: FC = () => {
    const [code, setCode] = useState('');
    const [password, setPassword] = useState('');
    const [typeInput, setTypeInput] = useState('password');
    const [icon, setIcon] = useState('ShowIcon');
-   const { userInfo, isForgotPassword } = useSelector(state => state.userSlice);
-   const inputRef = useRef(null);
+   const { userInfo, isForgotPassword } = useAppSelector(state => state.userSlice);
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const location = useLocation();
 
    const onIconClick = () => {
-      setTimeout(() => inputRef.current.focus(), 0)
       setTypeInput(typeInput === 'password' ? 'email' : 'password')
       setIcon(icon === 'ShowIcon' ? "HideIcon" : 'ShowIcon')
    }
 
-   const sendData = (e) => {
+   const sendData: React.FormEventHandler<HTMLFormElement> = (e) => {
       e.preventDefault();
 
       if (!code || !password) {
@@ -39,7 +39,7 @@ const ResetPassword = () => {
 
    useEffect(() => {
       if (userInfo) {
-         (location.state && location.state.from) ? navigate(location.state.from.pathname) : navigate('/');
+         (location.state && (location.state as LocationState)?.from) ? navigate((location.state as LocationState)?.from.pathname) : navigate('/');
       } else {
          !isForgotPassword && navigate('/forgot-password');
       }
@@ -54,14 +54,15 @@ const ResetPassword = () => {
 
             <div className="mb-6">
                <Input
+                  //@ts-ignore
                   type={typeInput}
                   placeholder={'Введите новый пароль'}
                   onChange={e => setPassword(e.target.value)}
+                  //@ts-ignore
                   icon={icon}
                   value={password}
                   name={'name'}
                   error={false}
-                  ref={inputRef}
                   onIconClick={onIconClick}
                   errorText={'Ошибка'}
                   size={'default'}
@@ -77,8 +78,6 @@ const ResetPassword = () => {
                   value={code}
                   name={'code'}
                   error={false}
-                  ref={inputRef}
-                  onIconClick={''}
                   errorText={'Ошибка'}
                   size={'default'}
                />

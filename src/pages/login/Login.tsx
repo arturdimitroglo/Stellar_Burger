@@ -1,27 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import style from './Login.module.css'
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../services/actions/user";
+import { useAppDispatch, useAppSelector } from "../../hook/hook";
+import { LocationState } from "../../utils/types";
 
-const Login = () => {
+
+const Login: FC = () => {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    
-   const { userInfo } = useSelector(state => state.userSlice);
+   const { userInfo } = useAppSelector(state => state.userSlice);
 
-   const inputRef = useRef(null);
+   const inputRef = useRef<HTMLInputElement>(null);
 
-   const dispatch = useDispatch();
+   const dispatch = useAppDispatch();
    const navigate = useNavigate();
    const location = useLocation();
+   
 
-   const onChange = e => {
+   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value)
    }
 
-   const sendData = (e) => {
+   const sendData: React.FormEventHandler<HTMLFormElement> = (e) => {
       e.preventDefault();
 
       if (!email || !password) {
@@ -33,7 +37,7 @@ const Login = () => {
 
    useEffect(() => {
       if (userInfo) {
-         (location.state && location.state.from) ? navigate(location.state.from.pathname) : navigate('/');
+         (location.state && (location.state as LocationState)?.from) ? navigate((location.state as LocationState)?.from.pathname) : navigate('/');
       }
    }, [userInfo, navigate, location])
 
@@ -53,7 +57,6 @@ const Login = () => {
                   name={'e-mail'}
                   error={false}
                   ref={inputRef}
-                  onIconClick={''}
                   errorText={'Ошибка'}
                   size={'default'}
                />

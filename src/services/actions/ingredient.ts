@@ -4,9 +4,10 @@ import {
    getListIngredients,
    getListIngredientsFailed,
 } from '../reducers/ingredient';
+import { AppDispatch } from '../store';
 
 export function getFeed() {
-   return function (dispatch) {
+   return function (dispatch: AppDispatch) {
       dispatch(getFeedItem())
       mainApi.getIngredients()
          .then((ingredientsData) => {

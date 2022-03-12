@@ -27,6 +27,7 @@ import {
    setRefreshTokenSuccess,
    setRefreshTokenFailed,
 } from '../reducers/user';
+import { AppDispatch } from '../store';
 
 export const forgotPassword = (email) => {
    return (dispatch) => {
@@ -122,7 +123,7 @@ export const logout = (refreshToken) => {
    }
 }
 
-export const getUserData = (token) => {
+export const getUserData = (token ) => {
    return (dispatch) => {
       dispatch(setGetUserInfo())
 
@@ -153,5 +154,5 @@ const refreshToken = (refreshToken) => {
          })
    }
 }
-
+//разобраться с типизацией refreshToken
 // Планирую переписать на axios

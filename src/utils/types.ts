@@ -15,6 +15,8 @@ const ingredientsPropTypes = PropTypes.shape({
 })
 export default ingredientsPropTypes;
 
+
+
 export interface IIngredient {
    calories: number,
    carbohydrates: number,
@@ -37,5 +39,19 @@ export interface IUserData {
    success: boolean
    user: object | null
 }
+
+export interface LocationState {
+   from: {
+      pathname: string;
+   };
+}
+
+//  interface Location {
+//    pathname: string;
+//    search: string;
+//    hash: string;
+//    state: unknown;
+//    key: string;
+//  }
 
 

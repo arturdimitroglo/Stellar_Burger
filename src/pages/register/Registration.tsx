@@ -1,25 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import style from './Registration.module.css'
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registration } from "../../services/actions/user";
+import { useAppDispatch } from "../../hook/hook";
 
-const Registration = () => {
+const Registration: FC = () => {
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
    const [name, setName] = useState('')
 
-   const inputRef = useRef(null)
+   const inputRef = useRef<HTMLInputElement>(null)
 
-   const dispatch = useDispatch()
+   const dispatch = useAppDispatch()
    const navigate = useNavigate()
 
-   const onChange = e => {
+   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value)
    }
 
-   const sendData = (e) => {
+   const sendData: React.FormEventHandler<HTMLFormElement> = (e) => {
       e.preventDefault();
 
       if (!name || !email || !password) {
@@ -46,7 +47,6 @@ const Registration = () => {
                   name={'name'}
                   error={false}
                   ref={inputRef}
-                  onIconClick={''}
                   errorText={'Ошибка'}
                   size={'default'}
                />
@@ -61,7 +61,6 @@ const Registration = () => {
                   name={'e-mail'}
                   error={false}
                   ref={inputRef}
-                  onIconClick={''}
                   errorText={'Ошибка'}
                   size={'default'}
                />

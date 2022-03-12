@@ -6,9 +6,10 @@ import {
   getCreatedOrderFailed,
 } from '../reducers/ingredient';
 import { openCreatedOrder } from '../reducers/modal';
+import { AppDispatch } from '../store';
 
-export function sendOrder(ingredientsId) {
-  return function (dispatch) {
+export function sendOrder(ingredientsId: string[]) {
+  return function (dispatch: AppDispatch) {
     dispatch(getCreatedOrder())
     mainApi.sendIngredients(ingredientsId)
       .then(res => {

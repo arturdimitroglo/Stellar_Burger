@@ -1,11 +1,12 @@
 import { baseUrl } from './baseURL'
 
 class Api {
-  constructor(data) {
+  private _baseUrl: string;
+  constructor(data: string) {
     this._baseUrl = data;
   }
 
-  _requestResult(res) {
+  _requestResult(res: Response) {
     if (res.ok) {
       return res.json();
     } else {
@@ -19,7 +20,7 @@ class Api {
     return fetch(`${this._baseUrl}/ingredients`).then((res) => this._requestResult(res));
   }
 
-  sendIngredients(ingredientsIds) {
+  sendIngredients(ingredientsIds: Array<string>) {
     const burgerData = {
       'ingredients': ingredientsIds
     }
@@ -33,7 +34,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  sendEmail(email) {
+  sendEmail(email: string) {
     return fetch(`${this._baseUrl}/password-reset`, {
       method: "POST",
       headers: {
@@ -45,7 +46,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  resetPassword(password, code) {
+  resetPassword(password: string, code: string) {
     return fetch(`${this._baseUrl}/password-reset/reset`, {
       method: "POST",
       headers: {
@@ -58,7 +59,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  login(email, password) {
+  login(email: string, password: string) {
     return fetch(`${this._baseUrl}/auth/login`, {
       method: "POST",
       headers: {
@@ -71,7 +72,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  register(email, name, password) {
+  register(email: string, name: string, password: string) {
     return fetch(`${this._baseUrl}/auth/register`, {
       method: "POST",
       headers: {
@@ -85,7 +86,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  getUserData(token) {
+  getUserData(token: string) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "GET",
       headers: {
@@ -95,7 +96,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  sendUserInfo(token, name, email, password) {
+  sendUserInfo(token: string, name: string, email: string, password: string) {
     return fetch(`${this._baseUrl}/auth/user`, {
       method: "PATCH",
       headers: {
@@ -110,7 +111,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  refreshToken(refreshToken) {
+  refreshToken(refreshToken: string) {
     return fetch(`${this._baseUrl}/auth/token`, {
       method: "POST",
       headers: {
@@ -122,7 +123,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  logout(refreshToken) {
+  logout(refreshToken: string) {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: "POST",
       headers: {

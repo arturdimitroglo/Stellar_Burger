@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import style from './IngredirntsId.module.css'
 import IngredientDetails from '../../components/ingredient-details/IngredientDetails'
 
-const IngredientsId = () => {
+const IngredientsId: FC = () => {
    return (
       <>
          <div className={`${style.content} mt-30`}>

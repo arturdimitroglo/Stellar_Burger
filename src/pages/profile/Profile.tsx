@@ -3,10 +3,12 @@ import { NavLink, Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import UserInfo from "../../components/user-info/UserInfo";
 import { logout } from '../../services/actions/user';
+import { FC } from 'react';
+import { useAppDispatch } from '../../hook/hook';
 
 
-const Profile = () => {
-   const dispatch = useDispatch();
+const Profile: FC = () => {
+   const dispatch = useAppDispatch();
 
    const handleLogout = () => {
       const refreshToken = localStorage.getItem('refreshToken');

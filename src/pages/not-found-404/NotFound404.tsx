@@ -1,9 +1,9 @@
 import style from './NotFound404.module.css';
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import pageNotFound from "../../images/404 Error-bro.png";
 
-const NotFound404 = () => {
+const NotFound404: FC = () => {
    return (
       <>
          <div className={style.container}>
