@@ -27,6 +27,7 @@ import {
    setRefreshTokenSuccess,
    setRefreshTokenFailed,
 } from '../reducers/user';
+import { AppDispatch } from '../store';
 
 export const forgotPassword = (email) => {
    return (dispatch) => {
@@ -64,7 +65,7 @@ export const registration = (email, name, password) => {
 
       mainApi.register(email, name, password)
          .then(res => {
-            dispatch(registrationUserSuccess(res.accessToken))
+            dispatch(registrationUserSuccess(res))
             localStorage.setItem('refreshToken', res.refreshToken)
          })
          .catch((err) => {
@@ -122,7 +123,7 @@ export const logout = (refreshToken) => {
    }
 }
 
-export const getUserData = (token) => {
+export const getUserData = (token ) => {
    return (dispatch) => {
       dispatch(setGetUserInfo())
 
@@ -146,12 +147,12 @@ const refreshToken = (refreshToken) => {
       mainApi.refreshToken(refreshToken)
          .then((res) => {
             localStorage.setItem('refreshToken', res.refreshToken)
-            dispatch(setRefreshTokenSuccess(res.accessToken))
+            dispatch(setRefreshTokenSuccess(res))
          })
          .catch((err) => {
             dispatch(setRefreshTokenFailed())
          })
    }
 }
-
+//разобраться с типизацией refreshToken
 // Планирую переписать на axios

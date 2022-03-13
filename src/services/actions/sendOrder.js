@@ -1,4 +1,5 @@
 import mainApi from '../../utils/checkResponse';
+import { IIngredient } from '../../utils/types';
 import {
   getCreatedOrder,
   getCreatedOrderSuccess,
@@ -6,6 +7,8 @@ import {
   getCreatedOrderFailed,
 } from '../reducers/ingredient';
 import { openCreatedOrder } from '../reducers/modal';
+import { AppDispatch } from '../store';
+
 
 export function sendOrder(ingredientsId) {
   return function (dispatch) {

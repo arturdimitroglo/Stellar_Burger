@@ -4,6 +4,7 @@ import {
    getListIngredients,
    getListIngredientsFailed,
 } from '../reducers/ingredient';
+import { AppDispatch } from '../store';
 
 export function getFeed() {
    return function (dispatch) {
