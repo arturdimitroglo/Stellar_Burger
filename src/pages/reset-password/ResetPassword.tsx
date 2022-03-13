@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import style from './ResetPassword.module.css'
-import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/actions/user";
-import { useAppSelector } from "../../hook/hook";
+import { useAppDispatch, useAppSelector } from "../../hook/hook";
 import { LocationState } from "../../utils/types";
 
 
@@ -16,7 +15,7 @@ const ResetPassword: FC = () => {
    const { userInfo, isForgotPassword } = useAppSelector(state => state.userSlice);
 
    const navigate = useNavigate();
-   const dispatch = useDispatch();
+   const dispatch = useAppDispatch();
    const location = useLocation();
 
    const onIconClick = () => {

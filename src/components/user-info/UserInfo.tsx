@@ -1,14 +1,13 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './UserInfo.module.css';
 import { sendUserData } from '../../services/actions/user';
-import { useAppSelector } from '../../hook/hook';
+import { useAppDispatch, useAppSelector } from '../../hook/hook';
 
 
 const UserInfo: FC = () => {
    const { token, userInfo } = useAppSelector(state => state.userSlice);
-   const dispatch = useDispatch();
+   const dispatch = useAppDispatch();
 
    const [name, setName] = useState("");
    const [login, setLogin] = useState("");

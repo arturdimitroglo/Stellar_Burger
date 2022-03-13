@@ -1,6 +1,5 @@
 import style from './Profile.module.css'
 import { NavLink, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import UserInfo from "../../components/user-info/UserInfo";
 import { logout } from '../../services/actions/user';
 import { FC } from 'react';

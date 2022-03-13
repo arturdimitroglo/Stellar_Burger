@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import style from './OrderDetails.module.css';
 import img from '../../images/done.gif';
-import { useSelector } from "react-redux";
 import { useAppSelector } from "../../hook/hook";
 
 

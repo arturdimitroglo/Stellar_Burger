@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import style from './IngredientDetails.module.css';
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../hook/hook";
 import { IIngredient } from "../../utils/types";

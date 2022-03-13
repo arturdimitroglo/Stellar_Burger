@@ -1,10 +1,8 @@
 import React, { FC, useMemo } from 'react';
 import style from './BurgerConstructor.module.css';
-import PropTypes from 'prop-types';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/Modal';
 import OrderDetails from '../order-details/OrderDetails';
-import { useDispatch, useSelector } from 'react-redux';
 import AddedIngredient from '../added-ingredient/AddedIngredient';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -126,8 +124,5 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
       </DndProvider>
    )
 }
-// BurgerConstructor.propTypes = {
-//    onDropHandler: PropTypes.func.isRequired,
-// };
 
 export default BurgerConstructor;

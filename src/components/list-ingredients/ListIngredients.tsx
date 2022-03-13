@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/Ingredient';
 import style from './ListIngredients.module.css'
 import { IListIngredients } from '../../utils/types';
-// import ingredientsPropTypes from '../../utils/types';
 
 const ListIngredients: FC<IListIngredients> = ({ ingredients, title , id}) => {
    return (
@@ -22,11 +21,5 @@ const ListIngredients: FC<IListIngredients> = ({ ingredients, title , id}) => {
       </>
    )
 }
-
-// ListIngredients.propTypes = {
-//    ingredients: PropTypes.arrayOf(ingredientsPropTypes.isRequired).isRequired,
-//    title: PropTypes.string.isRequired,
-//    id: PropTypes.string.isRequired,
-// }
 
 export default ListIngredients;

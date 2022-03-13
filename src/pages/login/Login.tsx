@@ -2,7 +2,6 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import style from './Login.module.css'
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../services/actions/user";
 import { useAppDispatch, useAppSelector } from "../../hook/hook";
 import { LocationState } from "../../utils/types";
@@ -20,7 +19,6 @@ const Login: FC = () => {
    const navigate = useNavigate();
    const location = useLocation();
    
-
    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value)
    }

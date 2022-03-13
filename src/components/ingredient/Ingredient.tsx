@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './Ingredient.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -65,9 +64,5 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
       </div>
    )
 }
-
-// Ingredient.propTypes = {
-//    ingredient: ingredientsPropTypes.isRequired
-// }
 
 export default Ingredient;

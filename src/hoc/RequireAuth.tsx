@@ -1,5 +1,4 @@
 import { useLocation, Navigate, RouteProps } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "../hook/hook";
 import { FC } from "react";
 

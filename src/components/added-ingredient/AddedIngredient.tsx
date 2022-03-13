@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from "react-dnd";
 import { FC, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { deleteIngredient } from '../../services/reducers/ingredient';
 import { IAddedIngredient, IIndex, IIngredient } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../hook/hook';
@@ -79,11 +78,5 @@ const AddedIngredient: FC<IAddedIngredient> = ({ ingredient, id, index, moveCard
    )
 }
 
-// AddedIngredient.propTypes = {
-//    ingredient: ingredientsPropTypes.isRequired,
-//    id: PropTypes.string.isRequired,
-//    moveCard: PropTypes.func.isRequired,
-//    index: PropTypes.number.isRequired,
-// };
 
 export default AddedIngredient;

@@ -2,7 +2,6 @@ import React, { FC, useRef, useState } from "react";
 import style from './ForgotPassword.module.css'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { forgotPassword } from "../../services/actions/user";
 import { useAppDispatch } from "../../hook/hook";
 

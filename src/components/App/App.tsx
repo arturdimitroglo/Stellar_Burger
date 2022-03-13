@@ -1,5 +1,4 @@
 import React, { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Main from '../main/Main';
 import { Routes, Route } from 'react-router-dom';
 import ForgotPassword from '../../pages/forgot-password/ForgotPassword';
