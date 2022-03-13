@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import style from './BurgerConstructor.module.css';
 import PropTypes from 'prop-types';
 import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/Modal.jsx';
-import OrderDetails from '../order-details/OrderDetails.jsx';
+import Modal from '../modal/Modal';
+import OrderDetails from '../order-details/OrderDetails';
 import { useDispatch, useSelector } from 'react-redux';
-import AddedIngredient from '../added-ingredient/AddedIngredient.jsx';
+import AddedIngredient from '../added-ingredient/AddedIngredient';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDrop } from "react-dnd";
@@ -13,12 +13,14 @@ import { useNavigate } from "react-router-dom";
 import { sendOrder } from '../../services/actions/sendOrder';
 import { closeCreatedOrder } from '../../services/reducers/modal';
 import { sortConstructorIngredients } from '../../services/reducers/ingredient';
+import { IBurgerConstructorProps, IIngredient } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../hook/hook';
 
-const BurgerConstructor = ({ onDropHandler }) => {
-   const { userInfo } = useSelector(state => state.userSlice)
-   const { constructorIngredients } = useSelector(state => state.ingredientSlice)
-   const { modalCreatedOrderActive } = useSelector(state => state.modalSlice)
-   const dispatch = useDispatch()
+const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
+   const { userInfo } = useAppSelector(state => state.userSlice)
+   const { constructorIngredients } = useAppSelector(state => state.ingredientSlice)
+   const { modalCreatedOrderActive } = useAppSelector(state => state.modalSlice)
+   const dispatch = useAppDispatch()
    const navigate = useNavigate();
 
    const sum = useMemo(() =>
@@ -27,13 +29,14 @@ const BurgerConstructor = ({ onDropHandler }) => {
 
    const [, dropRef] = useDrop({
       accept: 'ingredient',
-      drop(item) {
+      drop(item: IIngredient) {
          onDropHandler(item);
       },
    });
 
    const bun = constructorIngredients.find((item) => item.type === 'bun');
-   const bunHandler = (constructorIngredients, property, trueValue, falseValue) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
+   // @ts-ignore
+   const bunHandler = (constructorIngredients: IIngredient[], property: string, trueValue: string, falseValue: string) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
 
    const openOrderDetails = () => {
       const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
@@ -49,7 +52,9 @@ const BurgerConstructor = ({ onDropHandler }) => {
       dispatch(closeCreatedOrder());
    }
 
-   const moveCard = (dragIndex, hoverIndex) => {
+
+
+   const moveCard = (dragIndex: number, hoverIndex: number) => {
       const dragCard = constructorIngredients[dragIndex];
       const newConstructorIngredients = [...constructorIngredients];
       newConstructorIngredients.splice(dragIndex, 1);
@@ -66,7 +71,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
                      type="top"
                      isLocked={true}
                      text={bunHandler(constructorIngredients, 'name', '(верх)', 'Выберите булку')}
-                     price={bunHandler(constructorIngredients, 'price', '', '0')}
+                     price={+bunHandler(constructorIngredients, 'price', '', '0')}
                      thumbnail={bunHandler(constructorIngredients, 'image', '', '')}
                   />
                </div>
@@ -89,7 +94,7 @@ const BurgerConstructor = ({ onDropHandler }) => {
                      type="bottom"
                      isLocked={true}
                      text={bunHandler(constructorIngredients, 'name', '(низ)', 'Выберите булку')}
-                     price={bunHandler(constructorIngredients, 'price', '', '0')}
+                     price={+bunHandler(constructorIngredients, 'price', '', '0')}
                      thumbnail={bunHandler(constructorIngredients, 'image', '', '')}
                   />
                </div>
@@ -121,8 +126,8 @@ const BurgerConstructor = ({ onDropHandler }) => {
       </DndProvider>
    )
 }
-BurgerConstructor.propTypes = {
-   onDropHandler: PropTypes.func.isRequired,
-};
+// BurgerConstructor.propTypes = {
+//    onDropHandler: PropTypes.func.isRequired,
+// };
 
 export default BurgerConstructor;

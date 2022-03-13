@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './AppHeader.module.css';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
    
    return (
       <header className={`${style.header} text text_type_main-default`}>
@@ -20,9 +20,9 @@ const AppHeader = () => {
                </NavLink>
             </div>
 
-            <div className={style.logo}>
+            <Link to='/' className={style.logo}>
                <Logo />
-            </div>
+            </Link>
             <NavLink to='/profile' className={({isActive}) => isActive ? `${style.link_active} p-5 m-2` : `${style.link} p-5 m-2` }>
                <ProfileIcon type="secondary" />
                <p className="m-2">Личный кабинет</p>

@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IIngredient } from '../../utils/types';
 
 interface ICounterState {
-   actualIngredient: object | null;
+   actualIngredient: IIngredient | null;
    modalCreatedOrderActive: boolean;
    modalIngredientDetailsActive: boolean;
 }
 
 const initialState: ICounterState = {
-   actualIngredient: {},
+   actualIngredient: null,
    
    modalCreatedOrderActive: false,
    modalIngredientDetailsActive: false,
@@ -26,7 +27,7 @@ const modalSlice = createSlice({
       },
       
       //работа с модальным окном подробностей ингредиента
-      openIngredientDetails(state, action: PayloadAction<object | null>) {
+      openIngredientDetails(state, action: PayloadAction<IIngredient | null>) {
          state.actualIngredient = action.payload;
          state.modalIngredientDetailsActive = true;
       },

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Main from '../main/Main';
 import { Routes, Route } from 'react-router-dom';
@@ -13,11 +13,12 @@ import Layout from '../layout/Layout';
 import RequireAuthForProfile from '../../hoc/RequireAuth';
 import { getFeed } from '../../services/actions/ingredient';
 import { getUserData } from '../../services/actions/user';
+import { useAppDispatch, useAppSelector } from '../../hook/hook';
 
 
-function App() {
-  const dispatch = useDispatch();
-  const { token } = useSelector(state => state.userSlice)
+const App: FC = () => {
+  const dispatch = useAppDispatch();
+  const { token } = useAppSelector(state => state.userSlice)
 
   useEffect(
     () => {

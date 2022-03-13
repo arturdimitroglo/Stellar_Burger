@@ -1,16 +1,18 @@
-import React from "react";
+import React, { FC } from "react";
 import style from './IngredientDetails.module.css';
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../hook/hook";
+import { IIngredient } from "../../utils/types";
 
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
    const { id } = useParams();
-   const { actualIngredient } = useSelector(state => state.modalSlice);
-   const { ingredients } = useSelector(state => state.ingredientSlice);
+   const { actualIngredient } = useAppSelector(state => state.modalSlice);
+   const { ingredients } = useAppSelector(state => state.ingredientSlice);
 
-   const ingredientId = id ? ingredients.find(ingredient => ingredient._id === id) : actualIngredient;
-   
+   const ingredientId = id ? ingredients.find((ingredient: IIngredient) => ingredient._id === id) : actualIngredient;
+
    return (
       <>
       {ingredientId && (<div className={style.modal}>

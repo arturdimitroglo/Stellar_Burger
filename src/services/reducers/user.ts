@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IUserData } from '../../utils/types';
+import { IUserData, IUserInfo } from '../../utils/types';
 
 interface ICounterState {
    forgotPasswordRequest: boolean;
@@ -14,7 +14,7 @@ interface ICounterState {
    loginFailed: boolean;
    sendUserInfoRequest: boolean;
    sendUserInfoFailed: boolean;
-   userInfo: object | null;
+   userInfo: IUserInfo | null;
    logoutRequest: boolean;
    logoutFailed: boolean;
    getUserInfoRequest: boolean;
@@ -92,7 +92,7 @@ const userSlice = createSlice({
          state.getUserInfoRequest = true;
          state.getUserInfoFailed = false;
       },
-      setGetUserInfoSuccess(state, action: PayloadAction<object | null>) {
+      setGetUserInfoSuccess(state, action: PayloadAction<IUserInfo>) {
          state.getUserInfoRequest = false;
          state.userInfo = action.payload;
       },
@@ -105,7 +105,7 @@ const userSlice = createSlice({
          state.sendUserInfoRequest = true;
          state.sendUserInfoFailed = false;
       },
-      sendUserInfoSuccess(state, action: PayloadAction<object | null>) {
+      sendUserInfoSuccess(state, action: PayloadAction<IUserInfo>) {
          state.sendUserInfoRequest = false;
          state.userInfo = action.payload;
       },

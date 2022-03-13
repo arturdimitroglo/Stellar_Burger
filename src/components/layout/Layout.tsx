@@ -1,11 +1,12 @@
-import React from "react";
+import React, { FC } from "react";
 import style from './Layout.module.css';
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppHeader from '../app-header/AppHeader'
+import { useAppSelector } from "../../hook/hook";
 
-function Layout() {
-   const { feedFailed, feedRequest, ingredients } = useSelector(state => state.ingredientSlice);
+const Layout: FC = () => {
+   const { feedFailed, feedRequest, ingredients } = useAppSelector(state => state.ingredientSlice);
 
    return (
       <>
@@ -22,7 +23,6 @@ function Layout() {
          )}
       </>
    )
-
 }
 
 export default Layout;

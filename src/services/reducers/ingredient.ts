@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as generateUniqueId } from 'uuid';
-import { IIngredient } from '../../utils/types';
+import { ICreatedOrder, IIngredient } from '../../utils/types';
 
 
 interface ICounterState {
-   ingredients: Array<object>;
-   constructorIngredients: Array<object>;
-   createdOrder: object | null;
+   ingredients: Array<IIngredient>;
+   constructorIngredients: Array<IIngredient>;
+   createdOrder: ICreatedOrder | null;
    feedRequest: boolean;
    feedFailed: boolean;
    orderFailed: boolean;
@@ -34,7 +34,7 @@ const ingredientSlice = createSlice({
          state.feedRequest = true;
          state.feedFailed = false;
       },
-      getListIngredients(state, action: PayloadAction<Array<object>>) {
+      getListIngredients(state, action: PayloadAction<Array<IIngredient>>) {
          state.ingredients = action.payload;
          state.feedRequest = false;
       },
@@ -47,7 +47,7 @@ const ingredientSlice = createSlice({
          state.orderRequest = true;
          state.orderFailed = false;
       },
-      getCreatedOrderSuccess(state, action: PayloadAction<object | null>) {
+      getCreatedOrderSuccess(state, action: PayloadAction<ICreatedOrder>) {
          state.orderRequest = false;
          state.createdOrder = action.payload;
       },
@@ -59,7 +59,7 @@ const ingredientSlice = createSlice({
          state.constructorIngredients = [];
       },
       //добавление ингредиента
-      draggingAnElement(state, action: PayloadAction<Array<IIngredient>>) {
+      draggingAnElement(state, action: PayloadAction<IIngredient[]>) {
          const modifiedIngredient = action.payload.map((ingredient) => {
             const ingredientCopy = Object.assign({}, ingredient);
             ingredientCopy.uuid = generateUniqueId();

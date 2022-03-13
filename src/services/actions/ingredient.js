@@ -7,7 +7,7 @@ import {
 import { AppDispatch } from '../store';
 
 export function getFeed() {
-   return function (dispatch: AppDispatch) {
+   return function (dispatch) {
       dispatch(getFeedItem())
       mainApi.getIngredients()
          .then((ingredientsData) => {

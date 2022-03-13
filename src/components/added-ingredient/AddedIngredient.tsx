@@ -1,30 +1,31 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from "react-dnd";
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { deleteIngredient } from '../../services/reducers/ingredient';
-import ingredientsPropTypes from '../../utils/types';
+import { IAddedIngredient, IIndex, IIngredient } from '../../utils/types';
+import { useAppDispatch, useAppSelector } from '../../hook/hook';
 
 
-function AddedIngredient({ ingredient, id, index, moveCard }) {
+const AddedIngredient: FC<IAddedIngredient> = ({ ingredient, id, index, moveCard }) => {
    const { name, price, image, } = ingredient;
-   const { constructorIngredients } = useSelector(state => state.ingredientSlice);
-   const dispatch = useDispatch();
-   const ref = useRef(null);
+   const { constructorIngredients } = useAppSelector(state => state.ingredientSlice);
+   const dispatch = useAppDispatch();
+   const ref = useRef<HTMLLIElement>(null);
 
-   const onClose = (elem) => {
+   const onClose = (elem: IIngredient) => {
       const del = constructorIngredients.indexOf(elem);
       dispatch(deleteIngredient(del))
    }
 
    const [, drop] = useDrop({
       accept: 'card',
-      hover: (item, monitor) => {
+      hover: (item: IIndex, monitor) => {
          if (!ref.current) {
             return;
          }
-
+         
          const dragIndex = item.index;
          const hoverIndex = index;
 
@@ -35,6 +36,7 @@ function AddedIngredient({ ingredient, id, index, moveCard }) {
          const hoverBoundingRect = ref.current?.getBoundingClientRect();
          const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
          const clientOffset = monitor.getClientOffset();
+         // @ts-ignore
          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
          if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -46,6 +48,7 @@ function AddedIngredient({ ingredient, id, index, moveCard }) {
          }
 
          moveCard(dragIndex, hoverIndex)
+
          item.index = hoverIndex;
       }
    })
@@ -65,22 +68,22 @@ function AddedIngredient({ ingredient, id, index, moveCard }) {
 
    return (
       <li ref={ref} style={{ opacity }} className='m-4'>
-         <DragIcon />
+         <DragIcon type='secondary' />
          <ConstructorElement
             text={name}
             price={price}
             thumbnail={image}
-            handleClose={(e) => onClose(ingredient)}
+            handleClose={() => onClose(ingredient)}
          />
       </li>
    )
 }
 
-AddedIngredient.propTypes = {
-   ingredient: ingredientsPropTypes.isRequired,
-   id: PropTypes.string.isRequired,
-   moveCard: PropTypes.func.isRequired,
-   index: PropTypes.number.isRequired,
-};
+// AddedIngredient.propTypes = {
+//    ingredient: ingredientsPropTypes.isRequired,
+//    id: PropTypes.string.isRequired,
+//    moveCard: PropTypes.func.isRequired,
+//    index: PropTypes.number.isRequired,
+// };
 
 export default AddedIngredient;

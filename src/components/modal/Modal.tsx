@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './Modal.module.css';
 import ModalOverlay from '../modal-overlay/ModalOverlay';
+import { IModalProps } from "../../utils/types";
 
-const modalRoot = document.getElementById("modals");
+const modalRoot: HTMLElement = document.getElementById("modals") as HTMLElement;
 
-function Modal({ title, children, onClick }) {
+const Modal: FC<IModalProps> = ({ title, children, onClick }) => {
 
    useEffect(
       () => {
-         const pressEcs = (e) => {
+         const pressEcs = (e: { key: string; }) => {
             e.key === 'Escape' && onClick()
          };
 
@@ -43,10 +44,10 @@ function Modal({ title, children, onClick }) {
    );
 }
 
-Modal.propTypes = {
-   title: PropTypes.string,
-   onClick: PropTypes.func.isRequired,
-   children: PropTypes.node.isRequired
-}
+// Modal.propTypes = {
+//    title: PropTypes.string,
+//    onClick: PropTypes.func.isRequired,
+//    children: PropTypes.node.isRequired
+// }
 
 export default Modal;
