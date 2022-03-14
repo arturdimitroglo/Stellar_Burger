@@ -13,6 +13,7 @@ import { closeCreatedOrder } from '../../services/reducers/modal';
 import { sortConstructorIngredients } from '../../services/reducers/ingredient';
 import { IBurgerConstructorProps, IIngredient } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../hook/hook';
+import Loader from '../loader/Loader';
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const { userInfo } = useAppSelector(state => state.userSlice)
@@ -116,9 +117,9 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
             </div>
          </div>
 
-         {modalCreatedOrderActive && userInfo &&
+         {modalCreatedOrderActive &&
             (<Modal onClick={onClose} title=''>
-               <OrderDetails />
+               {userInfo ? <OrderDetails /> : <Loader />}
             </Modal >)
          }
       </DndProvider>

@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppHeader from '../app-header/AppHeader'
 import { useAppSelector } from "../../hook/hook";
+import Loader from '../loader/Loader';
+
 
 const Layout: FC = () => {
    const { feedFailed, feedRequest, ingredients } = useAppSelector(state => state.ingredientSlice);
@@ -16,9 +18,9 @@ const Layout: FC = () => {
                Произошла ошибка при получении данных, попробуйте перезагрузить страницу
             </p>}
 
-         {feedRequest && !feedFailed && <p className={style.differentResult}>Загрузка...</p>}
+         {feedRequest && !feedFailed && <Loader />}
 
-         {ingredients && !feedFailed && (
+         {ingredients && !feedFailed && !feedRequest &&(
             <Outlet />
          )}
       </>

@@ -11,7 +11,7 @@ const Modal: FC<IModalProps> = ({ title, children, onClick }) => {
 
    useEffect(
       () => {
-         const pressEcs = (e: { key: string; }) => {
+         const pressEcs = (e: KeyboardEvent) => {
             e.key === 'Escape' && onClick()
          };
 
