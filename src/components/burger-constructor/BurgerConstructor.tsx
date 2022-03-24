@@ -17,7 +17,7 @@ import Loader from '../loader/Loader';
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const { userInfo } = useAppSelector(state => state.userSlice)
-   const { constructorIngredients } = useAppSelector(state => state.ingredientSlice)
+   const { constructorIngredients, createdOrder } = useAppSelector(state => state.ingredientSlice)
    const { modalCreatedOrderActive } = useAppSelector(state => state.modalSlice)
    const dispatch = useAppDispatch()
    const navigate = useNavigate();
@@ -50,7 +50,6 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const onClose = () => {
       dispatch(closeCreatedOrder());
    }
-
 
 
    const moveCard = (dragIndex: number, hoverIndex: number) => {
@@ -117,9 +116,9 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
             </div>
          </div>
 
-         {modalCreatedOrderActive &&
+         {modalCreatedOrderActive && 
             (<Modal onClick={onClose} title=''>
-               {userInfo ? <OrderDetails /> : <Loader />}
+               {createdOrder ? <OrderDetails /> : <Loader />}
             </Modal >)
          }
       </DndProvider>
