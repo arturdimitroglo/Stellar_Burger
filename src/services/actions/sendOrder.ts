@@ -1,5 +1,4 @@
 import mainApi from '../../utils/checkResponse';
-import { IIngredient } from '../../utils/types';
 import {
   getCreatedOrder,
   getCreatedOrderSuccess,
@@ -10,10 +9,10 @@ import { openCreatedOrder } from '../reducers/modal';
 import { AppDispatch } from '../store';
 
 
-export function sendOrder(ingredientsId) {
-  return function (dispatch) {
+export const sendOrder = (ingredientsId: string[], token: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch(getCreatedOrder())
-    mainApi.sendIngredients(ingredientsId)
+    mainApi.sendIngredients(ingredientsId, token)
       .then(res => {
         if (res && res.success) {
           dispatch(getCreatedOrderSuccess(res))
@@ -22,10 +21,10 @@ export function sendOrder(ingredientsId) {
         }
       })
       .then(res => {
-        dispatch(getDeleteCreatedOrder())
+        dispatch(openCreatedOrder())
       })
       .then(res => {
-        dispatch(openCreatedOrder())
+        dispatch(getDeleteCreatedOrder())
       })
       .catch(err =>
         dispatch(getCreatedOrderFailed())

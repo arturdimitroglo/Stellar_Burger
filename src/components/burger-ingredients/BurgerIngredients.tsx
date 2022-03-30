@@ -4,7 +4,7 @@ import style from './BurgerIngredients.module.css';
 import ListIngredients from '../list-ingredients/ListIngredients';
 import Modal from '../modal/Modal';
 import IngredientDetails from '../ingredient-details/IngredientDetails';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { closeIngredientDetails } from '../../services/reducers/modal';
 import { compareCoords } from '../../utils/compare-coords';

@@ -16,21 +16,30 @@ class Api {
     }
   }
 
+  fetchOrders = (token?: string) => {
+    let url = `${this._baseUrl}/orders/all`;
+    return fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => this._requestResult(res));
+  };
+
   getIngredients() {
     return fetch(`${this._baseUrl}/ingredients`).then((res) => this._requestResult(res));
   }
 
-  sendIngredients(ingredientsIds: Array<string>) {
-    const burgerData = {
-      'ingredients': ingredientsIds
-    }
-    
+  sendIngredients(ingredientsIds: string[], token: string) {
     return fetch(`${this._baseUrl}/orders`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        "Authorization": token,
       },
-      body: JSON.stringify(burgerData)
+      body: JSON.stringify({
+        ingredients: ingredientsIds,
+      }),
     }).then((res) => this._requestResult(res));
   }
 
@@ -123,7 +132,7 @@ class Api {
     }).then((res) => this._requestResult(res));
   }
 
-  logout(refreshToken: string) {
+  logout(refreshToken: string | null) {
     return fetch(`${this._baseUrl}/auth/logout`, {
       method: "POST",
       headers: {

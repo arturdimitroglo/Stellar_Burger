@@ -18,13 +18,14 @@ const Main: FC = () => {
       const selectedBun = constructorIngredients.find((ingredient: IIngredient) => ingredient.type === 'bun')
       const selectedBunIndex = selectedBun && constructorIngredients.indexOf(selectedBun)
       
-      if (targetIngredient?.type === 'bun' && selectedBun) {
-         const constructorIngredientsClone = constructorIngredients.slice();
-         selectedBunIndex && constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
-         dispatch(draggingAnElement(constructorIngredientsClone));
-      } else {
-         // @ts-ignore
-         dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
+      if (targetIngredient) {
+         if (targetIngredient?.type === 'bun' && selectedBun) {
+            const constructorIngredientsClone = constructorIngredients.slice();
+            selectedBunIndex && constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
+            dispatch(draggingAnElement(constructorIngredientsClone));
+         } else {
+            dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
+         }
       }
    }
 

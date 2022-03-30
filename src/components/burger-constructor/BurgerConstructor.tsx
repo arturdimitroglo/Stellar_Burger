@@ -19,6 +19,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const { userInfo } = useAppSelector(state => state.userSlice)
    const { constructorIngredients, createdOrder } = useAppSelector(state => state.ingredientSlice)
    const { modalCreatedOrderActive } = useAppSelector(state => state.modalSlice)
+   const {token} = useAppSelector(state => state.userSlice )
    const dispatch = useAppDispatch()
    const navigate = useNavigate();
 
@@ -34,14 +35,16 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    });
 
    const bun = constructorIngredients.find((item) => item.type === 'bun');
-   // @ts-ignore
-   const bunHandler = (constructorIngredients: IIngredient[], property: string, trueValue: string, falseValue: string) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
+   
+   const bunHandler = (constructorIngredients: IIngredient[], property: string, trueValue: string, falseValue: string) => constructorIngredients.find(ingredient => ingredient.type === 'bun') 
+     // @ts-ignore
+   ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` 
+      : falseValue
 
    const openOrderDetails = () => {
       const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
-
       if (userInfo) {
-         dispatch(sendOrder(ingredientsId))
+         dispatch(sendOrder(ingredientsId, token))
       } else {
          navigate('/login')
       }

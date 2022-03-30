@@ -13,27 +13,31 @@ import RequireAuthForProfile from '../../hoc/RequireAuth';
 import { getFeed } from '../../services/actions/ingredient';
 import { getUserData } from '../../services/actions/user';
 import { useAppDispatch, useAppSelector } from '../../hook/hook';
+import OrderList from '../../pages/order-list/order-list';
 
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector(state => state.userSlice)
+  const { token } = useAppSelector(state => state.userSlice);
 
   useEffect(
     () => {
       dispatch(getFeed());
       dispatch(getUserData(token));
-    }, [dispatch, token])
+    }, [dispatch, token]
+  );
 
   return (
     <>
       <Routes >
-        <Route path='/' element={<Layout />}>
+        <Route path='*' element={<Layout />}>
           <Route index element={<Main />} />
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Registration />} />
           <Route path='forgot-password' element={<ForgotPassword />} />
           <Route path='reset-password' element={<ResetPassword />} />
+          <Route path='feed/:id' element={<OrderList />} />
+          <Route path='orders/:id' element={<OrderList />} />
           <Route path='profile/*' element={
             <RequireAuthForProfile>
               <Profile />

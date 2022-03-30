@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
 import Ingredient from '../ingredient/Ingredient';
 import style from './ListIngredients.module.css'
 import { IListIngredients } from '../../utils/types';

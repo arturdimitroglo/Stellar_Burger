@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IIngredient } from '../../utils/types';
 
-interface ICounterState {
+export interface ICounterState {
    actualIngredient: IIngredient | null;
    modalCreatedOrderActive: boolean;
    modalIngredientDetailsActive: boolean;
@@ -15,7 +15,7 @@ const initialState: ICounterState = {
 }
 
 const modalSlice = createSlice({
-   name: 'burger',
+   name: 'modal',
    initialState,
    reducers: {
       //работа с модальным окном заказа
@@ -34,7 +34,6 @@ const modalSlice = createSlice({
       closeIngredientDetails(state) {
          state.modalIngredientDetailsActive = false;
       },
-      
    }
 })
 

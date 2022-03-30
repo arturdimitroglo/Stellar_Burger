@@ -1,6 +1,6 @@
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './Ingredient.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { IIngredient, IIngredientProps } from '../../utils/types';
 import { openIngredientDetails } from '../../services/reducers/modal';
@@ -39,16 +39,17 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
       const selectedBun = constructorIngredients.find(
          (ingredient: IIngredient) => ingredient.type === "bun"
       );
-      
+
       const selectedBunIndex = selectedBun && constructorIngredients.indexOf(selectedBun);
 
-      if (targetIngredient?.type === "bun" && selectedBun) {
-         const constructorIngredientsClone = constructorIngredients.slice();
-         selectedBunIndex && constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
-         dispatch(draggingAnElement(constructorIngredientsClone));
-      } else {
-         // @ts-ignore
-         dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
+      if (targetIngredient) {
+         if (targetIngredient.type === "bun" && selectedBun) {
+            const constructorIngredientsClone = constructorIngredients.slice();
+            selectedBunIndex && constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
+            dispatch(draggingAnElement(constructorIngredientsClone));
+         } else {
+            dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
+         }
       }
    }
 

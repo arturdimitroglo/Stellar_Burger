@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import style from './Layout.module.css';
 import { Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import AppHeader from '../app-header/AppHeader'
 import { useAppSelector } from "../../hook/hook";
 import Loader from '../loader/Loader';

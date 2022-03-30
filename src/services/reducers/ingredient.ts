@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as generateUniqueId } from 'uuid';
 import { ICreatedOrder, IIngredient } from '../../utils/types';
+import { RootState } from '../store';
 
 
-interface ICounterState {
+export interface IIngredientCounterState {
    ingredients: Array<IIngredient>;
    constructorIngredients: Array<IIngredient>;
    createdOrder: ICreatedOrder | null;
@@ -13,7 +14,7 @@ interface ICounterState {
    orderRequest: boolean;
 }
 
-const initialState: ICounterState = {
+const initialState: IIngredientCounterState = {
    ingredients: [],
    constructorIngredients: [],
    createdOrder: null,
@@ -26,7 +27,7 @@ const initialState: ICounterState = {
 }
 
 const ingredientSlice = createSlice({
-   name: 'burger',
+   name: 'ingredient',
    initialState,
    reducers: {
       //получение ингредиентов от сервира
@@ -66,7 +67,6 @@ const ingredientSlice = createSlice({
             return ingredientCopy;
          });
          state.constructorIngredients = modifiedIngredient;
-         
       },
       //для dnd
       sortConstructorIngredients(state, action: PayloadAction<Array<IIngredient>>) {
@@ -78,6 +78,10 @@ const ingredientSlice = createSlice({
       }
    }
 })
+
+export const selectIngredients = (state: RootState) => {
+   return state.ingredientSlice.ingredients;
+};
 
 export const {
    getCreatedOrder,
