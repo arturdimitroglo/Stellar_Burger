@@ -1,4 +1,4 @@
-import {  NavLink } from "react-router-dom";
+import {  NavLink, useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./feed-card.module.css";
 import dayjs from "dayjs";
@@ -19,12 +19,14 @@ export const formatDate = (utc: string): string => {
 };
 
 const FeedCard = ({ data }: IFeedCardProps) => {
+  const location = useLocation();
 
   return (
     <li className={styles.cardContainer}>
       <NavLink
         className={styles.card}
-        to={`${data._id}`}
+        to={`${data.number}`}
+        state={{ background: location }}
       >
         <p className={`${styles.header} text text_type_digits-default`}>
           #{data.number}{" "}

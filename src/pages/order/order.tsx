@@ -1,11 +1,10 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import {  NavLink } from "react-router-dom";
+import {  NavLink, useLocation } from "react-router-dom";
 import { formatDate } from "../../components/feed-card/feed-card";
 import IngredientImage from "../../components/ingredient-image/ingredient-image";
 import { TOrder } from "../../utils/types";
 import { OrderStatusOutput } from "../order-list/order-list";
-
-import styles from './order.module.css'
+import styles from './order.module.css';
 
 interface IOrderProps {
   data: TOrder;
@@ -14,12 +13,15 @@ interface IOrderProps {
 const Order = ({ data }: IOrderProps) => {
   const orderStatus = data.status.toUpperCase() as keyof typeof OrderStatusOutput;
 
+  const location = useLocation();
+
   return (
     <>
       <li className={styles.orderContainer}>
         <NavLink
           className={styles.order}
-          to={`${data._id}`}
+          to={`${data.number}`}
+          state={{ background: location }}
         >
           <p className={styles.header}>
             <span className="text text_type_digits-default">#{data.number}</span>

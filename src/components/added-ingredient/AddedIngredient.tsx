@@ -23,7 +23,7 @@ const AddedIngredient: FC<IAddedIngredient> = ({ ingredient, id, index, moveCard
          if (!ref.current) {
             return;
          }
-         
+
          const dragIndex = item.index;
          const hoverIndex = index;
 

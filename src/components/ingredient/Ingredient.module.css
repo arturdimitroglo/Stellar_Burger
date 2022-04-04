@@ -1,7 +1,4 @@
 .item {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
    height: 208px;
    width: 270px;
    position: relative;
@@ -26,4 +23,12 @@
 
 .name {
    text-align: center;
+}
+
+.link {
+   text-decoration: none;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }

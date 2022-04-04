@@ -83,7 +83,8 @@ const userSlice = createSlice({
       },
       setRefreshTokenSuccess(state, action: PayloadAction<IUserData>) {
          state.refreshTokenRequest = false;
-         state.token = action.payload.accessToken;
+         const token = action.payload.accessToken.split("Bearer ")[1]
+         state.token = token;
       },
       setRefreshTokenFailed(state) {
          state.refreshTokenRequest = false;
@@ -121,7 +122,9 @@ const userSlice = createSlice({
       },
       setLoginSuccess(state, action: PayloadAction<IUserData>) {
          state.loginRequest = false;
-         state.token = action.payload.accessToken;
+         
+         const token = action.payload.accessToken.split("Bearer ")[1]
+         state.token = token;
          state.userInfo = action.payload.user;
       },
       setLoginFailed(state) {
@@ -159,7 +162,8 @@ const userSlice = createSlice({
       },
       registrationUserSuccess(state, action: PayloadAction<IUserData>) {
          state.registrationRequest = false;
-         state.token = action.payload.accessToken;
+         const token = action.payload.accessToken.split("Bearer ")[1]
+         state.token = token;
       },
       registrationUserFailed(state) {
          state.registrationRequest = false;

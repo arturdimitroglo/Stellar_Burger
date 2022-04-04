@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
+import ProfileSidebar from "../../components/profile-sidebar/ProfileSidebar";
 import { useAppDispatch, useAppSelector } from "../../hook/hook";
 import { useModifyOrders } from "../../hook/useModifyOrders";
 import { selectAccessToken, selectIsForgotPassword } from "../../services/reducers/user";
@@ -14,11 +15,11 @@ const OrdersList: React.FC = () => {
   const accessToken = useAppSelector(selectAccessToken);
 
   useModifyOrders();
-  
+
   useEffect(() => {
     if (isAuthenticated) {
       dispatch({
-        type: WS_ORDER_ACTIONS.wsInit,
+        type: WS_ORDER_ACTIONS.wsInitWithCustomUrl,
         payload: `wss://norma.nomoreparties.space/orders?token=${accessToken}`,
       });
     }
@@ -27,23 +28,25 @@ const OrdersList: React.FC = () => {
       dispatch({ type: WS_ORDER_ACTIONS.wsClose });
     };
   }, [isAuthenticated]);
+  
 
   return (
-      <div>
-        <div className={styles.root}>
-          {orders && (
-            <ul className={`${styles.list} custom-scroll`}>
-              <Outlet/>
-              {orders
-                .slice()
-                .reverse()
-                .map((o) => (
-                  <Order key={o._id} data={o} />
-                ))}
-            </ul>
-          )}
-        </div>
+    <div className={styles.history}>
+      <ProfileSidebar />
+      <div className={styles.root}>
+        {orders 
+        ? (<ul className={`${styles.list} custom-scroll`}>
+            {orders
+              .slice()
+              .reverse()
+              .map((o) => (
+                <Order key={o._id} data={o} />
+              ))}
+          </ul>)
+          : <Loader/>
+        }
       </div>
+    </div>
   );
 };
 

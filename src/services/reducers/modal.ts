@@ -29,7 +29,7 @@ const modalSlice = createSlice({
       //работа с модальным окном подробностей ингредиента
       openIngredientDetails(state, action: PayloadAction<IIngredient | null>) {
          state.actualIngredient = action.payload;
-         state.modalIngredientDetailsActive = true;
+         // state.modalIngredientDetailsActive = true;
       },
       closeIngredientDetails(state) {
          state.modalIngredientDetailsActive = false;

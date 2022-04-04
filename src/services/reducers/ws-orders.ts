@@ -4,6 +4,8 @@ import { RootState } from "../store";
 
 export const WS_ORDER_ACTIONS = {
    wsInit: "wsOrder/init",
+   wsInitWithCustomUrl: "wsOrder/wsInitWithCustomUrl",
+   wsSendMessage: "wsOrder/sendMessage",
    wsClose: "wsOrder/close",
    onOpen: "wsOrder/onOpen",
    onClose: "wsOrder/onClose",
@@ -15,7 +17,7 @@ interface IWsOrdersState {
    orders: TOrder[] | undefined;
    total: number | undefined;
    totalToday: number | undefined;
-}
+};
 
 export const initialState: IWsOrdersState = {
    orders: undefined,

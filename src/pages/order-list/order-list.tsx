@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hook/hook";
 import IngredientImage from "../../components/ingredient-image/ingredient-image";
 import { fetchOrdersThunk } from "../../services/actions/ws-orders";
-import { selectOrderById } from "../../services/reducers/ws-orders";
 import { IIngredient } from "../../utils/types";
 import { useModifyOrders } from "../../hook/useModifyOrders";
 
@@ -27,7 +26,9 @@ const OrderList = ({ style }: IOrderDetails) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   
-  const ordersFromSockets = useAppSelector(selectOrderById(id));
+  const {orders} = useAppSelector(state => state.wsOrderReducer)
+  
+  const ordersFromSockets = orders?.find((o) => String(o.number) === id);
   const ingredientAll = useAppSelector(state => state.ingredientSlice.ingredients);
   const foundIngredients = ordersFromSockets?.ingredients.map((orderIngredient: string) => ingredientAll.find((ingredient: IIngredient) => ingredient._id === orderIngredient))
 

@@ -21,7 +21,7 @@ class Api {
     return fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
     }).then((res) => this._requestResult(res));
   };
@@ -30,12 +30,12 @@ class Api {
     return fetch(`${this._baseUrl}/ingredients`).then((res) => this._requestResult(res));
   }
 
-  sendIngredients(ingredientsIds: string[], token: string) {
+  sendIngredients(ingredientsIds: string[], token?: string) {
     return fetch(`${this._baseUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        "Authorization": token,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         ingredients: ingredientsIds,
@@ -100,7 +100,7 @@ class Api {
       method: "GET",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        "authorization": token
+        Authorization: `Bearer ${token}`,
       },
     }).then((res) => this._requestResult(res));
   }
@@ -110,7 +110,7 @@ class Api {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        "authorization": token
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         "email": email,

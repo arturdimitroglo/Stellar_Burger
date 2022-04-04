@@ -5,13 +5,14 @@ import { useAppDispatch, useAppSelector } from "../../hook/hook";
 import Orders from "../orders/orders";
 import Stats from "../stats/stats";
 import { useModifyOrders } from "../../hook/useModifyOrders";
-import { Outlet } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
 
 
 const OrdersFeed = () => {
   const dispatch = useAppDispatch();
   const orders = useAppSelector(selectOrders);
   const stats = useAppSelector(selectStats);
+  
   useEffect(() => {
     dispatch({ type: WS_ORDER_ACTIONS.wsInit });
 
@@ -26,13 +27,12 @@ const OrdersFeed = () => {
     <div className={styles.root}>
       <h1 className="text text_type_main-large mt-10 mb-5">Лента заказов</h1>
       <div className={styles.content}>
-        <Outlet />
-        {orders ? (
-          <Orders data={orders} />
-        ) : (
-          <div style={{ width: "100%", minWidth: 604 }} />
-        )}
-        <Stats data={stats} />
+        {orders
+          ? (<>
+            <Orders data={orders} />
+            <Stats data={stats} />
+          </>)
+          : <Loader />}
       </div>
     </div>
   );

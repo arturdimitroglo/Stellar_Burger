@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './AppHeader.module.css';
-import { Link, NavLink, Route, Routes } from 'react-router-dom';
-import OrdersFeed from '../../pages/orders-feed/orders-feed';
-import ModalOrder from '../modal-order/ModalOrder';
+import { Link, NavLink } from 'react-router-dom';
 
 
 const AppHeader: FC = () => {
@@ -26,16 +24,11 @@ const AppHeader: FC = () => {
             <Link to='/' className={style.logo}>
                <Logo />
             </Link>
-            <NavLink to='profile' className={({ isActive }) => isActive ? `${style.link_active} p-5 m-2` : `${style.link} p-5 m-2`}>
+            <NavLink to='profile/' className={({ isActive }) => isActive ? `${style.link_active} p-5 m-2` : `${style.link} p-5 m-2`}>
                <ProfileIcon type="secondary" />
                <p className="m-2">Личный кабинет</p>
             </NavLink>
          </nav>
-         <Routes>
-            <Route path='feed' element={<OrdersFeed />} >
-               <Route path=':id' element={<ModalOrder />} />
-            </Route>
-         </Routes>
       </header>
    )
 }
