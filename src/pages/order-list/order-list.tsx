@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hook/hook";
 import IngredientImage from "../../components/ingredient-image/ingredient-image";
 import { fetchOrdersThunk } from "../../services/actions/ws-orders";
-import { IIngredient } from "../../utils/types";
 import { useModifyOrders } from "../../hook/useModifyOrders";
 
 interface IOrderDetails {
@@ -25,24 +24,11 @@ export const OrderStatusOutput = {
 const OrderList = ({ style }: IOrderDetails) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  
-  const {orders} = useAppSelector(state => state.wsOrderReducer)
-  
+
+  const { orders } = useAppSelector(state => state.wsOrderReducer)
+
   const ordersFromSockets = orders?.find((o) => String(o.number) === id);
-  const ingredientAll = useAppSelector(state => state.ingredientSlice.ingredients);
-  const foundIngredients = ordersFromSockets?.ingredients.map((orderIngredient: string) => ingredientAll.find((ingredient: IIngredient) => ingredient._id === orderIngredient))
-
-  const calculateSum = (): number => {
-    let sum = 0;
-    foundIngredients?.forEach((ingredient: IIngredient | undefined) => {
-      const orderedIngredient = ingredientAll.find((orderIngredient: IIngredient) => orderIngredient?._id === ingredient?._id)
-      if (orderedIngredient?.price) {
-        sum += orderedIngredient.price
-      }
-    })
-    return sum
-  }
-
+  
   useEffect(() => {
     if (!ordersFromSockets) {
       dispatch(fetchOrdersThunk());
@@ -108,7 +94,7 @@ const OrderList = ({ style }: IOrderDetails) => {
 
         <div style={{ marginLeft: "auto" }} className={styles.priceContainer}>
           <span className="text text_type_main-default mr-2">
-            {calculateSum()}
+            {ordersFromSockets.price ? ordersFromSockets.price : "–"}
           </span>{" "}
 
           <CurrencyIcon type="primary" />

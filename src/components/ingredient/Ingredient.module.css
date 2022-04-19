@@ -3,6 +3,16 @@
    width: 270px;
    position: relative;
    cursor: pointer;
+   transition: all 0.2s ease;
+}
+
+.item_disabled {
+   filter: grayscale(1);
+   pointer-events: none;
+}
+
+.moving {
+   filter: grayscale(100);
 }
 
 .count {

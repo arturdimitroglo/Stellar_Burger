@@ -17,7 +17,7 @@ import Loader from '../loader/Loader';
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const { userInfo } = useAppSelector(state => state.userSlice)
-   const { constructorIngredients, createdOrder } = useAppSelector(state => state.ingredientSlice)
+   const { constructorIngredients, createdOrder, orderRequest, orderFailed } = useAppSelector(state => state.ingredientSlice)
    const { modalCreatedOrderActive } = useAppSelector(state => state.modalSlice)
    const { token } = useAppSelector(state => state.userSlice)
    const dispatch = useAppDispatch()
@@ -27,7 +27,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
       constructorIngredients.reduce((acc, cur) => cur.type === 'bun' ? acc + (cur.price * 2) : acc + cur.price, 0)
       , [constructorIngredients])
 
-   const [{isHover}, dropRef] = useDrop({
+   const [{ isHover }, dropRef] = useDrop({
       accept: 'ingredient',
       drop(item: IIngredient) {
          onDropHandler(item);
@@ -122,10 +122,15 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
                </div>
             </div>
          </div>
-
-         {modalCreatedOrderActive &&
+         {!modalCreatedOrderActive && orderRequest && !orderFailed &&
             (<Modal onClick={onClose} title=''>
-               {createdOrder ? <OrderDetails /> : <Loader />}
+               <Loader />
+            </Modal >)
+         }
+
+         {modalCreatedOrderActive && !orderRequest && !orderFailed && createdOrder &&
+            (<Modal onClick={onClose} title=''>
+               <OrderDetails />
             </Modal >)
          }
       </DndProvider>

@@ -17,7 +17,6 @@ import OrderList from '../../pages/order-list/order-list';
 import Modal from '../modal/Modal';
 import IngredientDetails from '../ingredient-details/IngredientDetails';
 import { closeIngredientDetails } from '../../services/reducers/modal';
-import { LocationState } from '../../utils/types';
 import OrdersList from '../../pages/orders-list/orders-list';
 import ModalOrder from '../modal-order/ModalOrder';
 import OrdersFeed from '../../pages/orders-feed/orders-feed';
@@ -36,15 +35,16 @@ const App: FC = () => {
     }, [dispatch, token]
   );
 
-  const background = location.state && (location.state as LocationState)?.background;
+  const state = location.state as { background?: Location };
 
   const closeDetails = () => {
     dispatch(closeIngredientDetails())
-    background && navigate(-1);
+    state?.background && navigate(-1);
   }
+
   return (
     <>
-      <Routes >
+      <Routes location={state?.background || location}>
         <Route path='*' element={<Layout />}>
           <Route index element={<Main />} />
           <Route path='login' element={<Login />} />
@@ -52,55 +52,43 @@ const App: FC = () => {
           <Route path='forgot-password' element={<ForgotPassword />} />
           <Route path='reset-password' element={<ResetPassword />} />
           <Route path='feed' element={<OrdersFeed />} />
-          {background
-            ? <Route path='feed/:id' element={<ModalOrder />} />
-            : <Route path='feed/:id' element={<OrderList />} />
-          }
+          <Route path='feed/:id' element={<OrderList />} />
           <Route path='profile/' element={
             <RequireAuthForProfile>
               <Profile />
             </RequireAuthForProfile>
           } />
           <Route path='profile/orders' element={<OrdersList />} />
-          {background
-            ? <Route path='profile/orders/:id' element={<ModalOrder />} />
-            : <Route path='profile/orders/:id' element={<OrderList />} />}
-          {background
-            ? <Route path='ingredients/:id' element={(
-              <Modal title='Детали ингредиента' onClick={closeDetails} >
-                <IngredientDetails />
-              </Modal >
-            )} />
-            : <Route path='ingredients/:id' element={<IngredientsId />} />}
+          <Route path='profile/orders/:id' element={<OrderList />} />
+          <Route path='ingredients/:id' element={<IngredientsId />} />
           <Route path='*' element={<NotFound404 />} />
         </Route>
       </Routes>
 
+      {state?.background && (
+        <Routes>
+          <Route path="ingredients/:id" element={(
+            <Modal title='Детали ингредиента' onClick={closeDetails} >
+              <IngredientDetails />
+            </Modal >
+          )} />
+        </Routes>
+      )}
+
+      {state?.background && (
+        <Routes>
+          <Route path='feed/:id' element={<ModalOrder />} />
+        </Routes>
+      )}
+
+      {state?.background && (
+        <Routes>
+          <Route path='profile/orders/:id' element={<ModalOrder />} />
+        </Routes>
+      )}
+      
+
     </>
   )
 }
-//   return (
-//     <>
-//       <Routes >
-//         <Route path='*' element={<Layout />}>
-//           <Route index element={<Main />} />
-//           <Route path='login' element={<Login />} />
-//           <Route path='register' element={<Registration />} />
-//           <Route path='forgot-password' element={<ForgotPassword />} />
-//           <Route path='reset-password' element={<ResetPassword />} />
-//           <Route path='feed/:id' element={<OrderList />} />
-//           <Route path='profile/*' element={
-//             <RequireAuthForProfile>
-//               <Profile />
-//             </RequireAuthForProfile>
-//           } />
-//           <Route path='ingredients/:id' element={<IngredientsId />} />
-//           <Route path='*' element={<NotFound404 />} />
-//         </Route>
-//       </Routes>
-
-//     </>
-//   )
-// }
-
 export default App;

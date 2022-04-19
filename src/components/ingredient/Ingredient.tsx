@@ -4,22 +4,24 @@ import { useDrag } from "react-dnd";
 import { IIngredient, IIngredientProps } from '../../utils/types';
 import { openIngredientDetails } from '../../services/reducers/modal';
 import { draggingAnElement } from '../../services/reducers/ingredient';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hook/hook';
 import { Link, useLocation } from 'react-router-dom';
 
 
 const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
-   const { image, price, name, _id } = ingredient;
-   const { constructorIngredients, ingredients } = useAppSelector(state => state.ingredientSlice)
+   const { image, price, name, _id, type } = ingredient;
 
-   const dispatch = useAppDispatch()
+   const { constructorIngredients, ingredients } = useAppSelector(state => state.ingredientSlice);
+   const dispatch = useAppDispatch();
    const location = useLocation();
+   const [isDisabled, setIsDisabled] = useState(true);
+
    const onClick = (elem: IIngredient | null) => {
       dispatch(openIngredientDetails(elem))
    }
 
-   const [, dragRef] = useDrag({
+   const [{ isDrag }, dragRef] = useDrag({
       type: "ingredient",
       item: { _id },
       collect: monitor => ({
@@ -30,7 +32,7 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
    let counter = 0;
 
    constructorIngredients.forEach((ingredient: IIngredient) => ingredient.name === name && (ingredient.type === 'bun' ? counter += 2 : counter += 1))
-   
+
    const handleChoseIngredient: React.MouseEventHandler<HTMLDivElement> = (e) => {
       e.preventDefault();
       const targetIngredient = ingredients.find(
@@ -53,9 +55,22 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
       }
    }
 
+   useEffect(() => {
+      if (type !== 'bun' && !constructorIngredients.some(ingredient => ingredient.type === 'bun')) {
+         setIsDisabled(true)
+      } else {
+         setIsDisabled(false)
+      }
+   }, [constructorIngredients, type])
+
    return (
-      <div className={`${style.item} mt-6 ml-4 mr-3 mb-10`} onContextMenu={handleChoseIngredient} data-id={_id} ref={dragRef} onClick={() => onClick(ingredient)}>
-         <Link className={style.link} to={{pathname: `/ingredients/${_id}`}} state={{ background: location }}>
+      <div
+         className={`${style.item} ${isDrag && style.moving} ${type !== 'bun' ? isDisabled && style.item_disabled : ''}`}
+         onContextMenu={handleChoseIngredient}
+         data-id={_id} ref={dragRef}
+         onClick={() => onClick(ingredient)}
+      >
+         <Link className={style.link} to={{ pathname: `/ingredients/${_id}` }} state={{ background: location }}>
             {counter > 0 && <Counter count={counter} size="default" />}
             <img className={`${style.bun} ml-4 mr-4 mb-1`} src={image} alt="" />
             <div className={`${style.price} mb-1`}>
