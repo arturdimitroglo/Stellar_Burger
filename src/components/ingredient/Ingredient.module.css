@@ -1,11 +1,18 @@
 .item {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
    height: 208px;
    width: 270px;
    position: relative;
    cursor: pointer;
+   transition: all 0.2s ease;
+}
+
+.item_disabled {
+   filter: grayscale(1);
+   pointer-events: none;
+}
+
+.moving {
+   filter: grayscale(100);
 }
 
 .count {
@@ -26,4 +33,12 @@
 
 .name {
    text-align: center;
+}
+
+.link {
+   text-decoration: none;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }

@@ -1,4 +1,3 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from "react-dnd";
 import { FC, useRef } from 'react';
@@ -24,7 +23,7 @@ const AddedIngredient: FC<IAddedIngredient> = ({ ingredient, id, index, moveCard
          if (!ref.current) {
             return;
          }
-         
+
          const dragIndex = item.index;
          const hoverIndex = index;
 

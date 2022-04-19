@@ -27,10 +27,10 @@ import {
    setRefreshTokenSuccess,
    setRefreshTokenFailed,
 } from '../reducers/user';
-import { AppDispatch } from '../store';
+import { AppDispatch, AppThunk } from '../store';
 
-export const forgotPassword = (email) => {
-   return (dispatch) => {
+export const forgotPassword = (email: string) => {
+   return (dispatch: AppDispatch) => {
       dispatch(setForgotPassword())
 
       mainApi.sendEmail(email)
@@ -44,12 +44,13 @@ export const forgotPassword = (email) => {
    }
 }
 
-export const resetPassword = (password, code) => {
-   return (dispatch) => {
+export const resetPassword = (password: string, code: string) => {
+   return (dispatch: AppDispatch) => {
       dispatch(setResetPassword())
 
       mainApi.resetPassword(password, code)
          .then(() => {
+            console.log(code)
             dispatch(setResetPasswordSuccess());
             dispatch(setForgotPasswordState(false))
          })
@@ -59,14 +60,15 @@ export const resetPassword = (password, code) => {
    }
 }
 
-export const registration = (email, name, password) => {
-   return (dispatch) => {
+export const registration = (email: string, name: string, password: string) => {
+   return (dispatch: AppDispatch) => {
       dispatch(registrationUser())
 
       mainApi.register(email, name, password)
          .then(res => {
             dispatch(registrationUserSuccess(res))
             localStorage.setItem('refreshToken', res.refreshToken)
+            dispatch(setForgotPasswordState(true))
          })
          .catch((err) => {
             dispatch(registrationUserFailed())
@@ -74,14 +76,15 @@ export const registration = (email, name, password) => {
    }
 }
 
-export const login = (email, password) => {
-   return (dispatch) => {
+export const login = (email: string, password: string) => {
+   return (dispatch: AppDispatch) => {
       dispatch(setLogin())
 
       mainApi.login(email, password)
          .then(res => {
             dispatch(setLoginSuccess(res))
             localStorage.setItem('refreshToken', res.refreshToken)
+            dispatch(setForgotPasswordState(true))
          })
          .catch((err) => {
             dispatch(setLoginFailed())
@@ -90,8 +93,8 @@ export const login = (email, password) => {
    }
 }
 
-export const sendUserData = (token, name, email, password) => {
-   return (dispatch) => {
+export const sendUserData = (token: string, name: string, email: string, password: string) => {
+   return (dispatch: AppDispatch) => {
       dispatch(sendUserInfo())
 
       mainApi.sendUserInfo(token, name, email, password)
@@ -100,6 +103,7 @@ export const sendUserData = (token, name, email, password) => {
          })
          .catch((err) => {
             if (err === tokenExpired ) {
+               // @ts-ignore
                dispatch(refreshToken(localStorage.getItem('refreshToken')))
             }
 
@@ -108,11 +112,11 @@ export const sendUserData = (token, name, email, password) => {
    }
 }
 
-export const logout = (refreshToken) => {
-   return (dispatch) => {
+export const logout = (refreshToken: string | null) => {
+   return (dispatch: AppDispatch) => {
       dispatch(setLogout())
 
-      mainApi.refreshToken(refreshToken)
+      mainApi.logout(refreshToken)
          .then(() => {
             localStorage.removeItem('refreshToken');
             dispatch(setLogoutSuccess());
@@ -123,8 +127,8 @@ export const logout = (refreshToken) => {
    }
 }
 
-export const getUserData = (token ) => {
-   return (dispatch) => {
+export const getUserData = (token: string ) => {
+   return (dispatch: AppDispatch) => {
       dispatch(setGetUserInfo())
 
       mainApi.getUserData(token)
@@ -133,6 +137,7 @@ export const getUserData = (token ) => {
          })
          .catch((err) => {
             if (err === tokenExpired || err === unauthorized) {
+               // @ts-ignore
                dispatch(refreshToken(localStorage.getItem('refreshToken')))
             }
             dispatch(setGetUserInfoFailed())
@@ -140,19 +145,19 @@ export const getUserData = (token ) => {
    }
 }
 
-const refreshToken = (refreshToken) => {
-   return (dispatch) => {
+const refreshToken = (refreshToken: string) => {
+   return (dispatch: AppDispatch) => {
       dispatch(setRefreshToken())
 
       mainApi.refreshToken(refreshToken)
          .then((res) => {
             localStorage.setItem('refreshToken', res.refreshToken)
             dispatch(setRefreshTokenSuccess(res))
+            dispatch(setForgotPasswordState(true))
          })
          .catch((err) => {
             dispatch(setRefreshTokenFailed())
          })
    }
 }
-//разобраться с типизацией refreshToken
-// Планирую переписать на axios
+

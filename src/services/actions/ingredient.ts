@@ -6,8 +6,8 @@ import {
 } from '../reducers/ingredient';
 import { AppDispatch } from '../store';
 
-export function getFeed() {
-   return function (dispatch) {
+export const getFeed = () => {
+   return function (dispatch: AppDispatch) {
       dispatch(getFeedItem())
       mainApi.getIngredients()
          .then((ingredientsData) => {

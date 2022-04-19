@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IUserData, IUserInfo } from '../../utils/types';
+import { RootState } from '../store';
 
-interface ICounterState {
+export interface IUserCounterState {
    forgotPasswordRequest: boolean;
    forgotPasswordFailed: boolean;
    isForgotPassword: boolean;
@@ -9,12 +10,12 @@ interface ICounterState {
    resetPasswordFailed: boolean;
    registrationRequest: boolean;
    registrationFailed: boolean;
-   token: string ;
+   token: string;
    loginRequest: boolean;
    loginFailed: boolean;
    sendUserInfoRequest: boolean;
    sendUserInfoFailed: boolean;
-   userInfo: IUserInfo | null;
+   userInfo?: IUserInfo | null;
    logoutRequest: boolean;
    logoutFailed: boolean;
    getUserInfoRequest: boolean;
@@ -23,7 +24,7 @@ interface ICounterState {
    refreshTokenFailed: boolean;
 }
 
-const initialState: ICounterState = {
+const initialState: IUserCounterState = {
    forgotPasswordRequest: false,
    forgotPasswordFailed: false,
    isForgotPassword: false,
@@ -82,7 +83,8 @@ const userSlice = createSlice({
       },
       setRefreshTokenSuccess(state, action: PayloadAction<IUserData>) {
          state.refreshTokenRequest = false;
-         state.token = action.payload.accessToken;
+         const token = action.payload.accessToken.split("Bearer ")[1]
+         state.token = token;
       },
       setRefreshTokenFailed(state) {
          state.refreshTokenRequest = false;
@@ -120,7 +122,9 @@ const userSlice = createSlice({
       },
       setLoginSuccess(state, action: PayloadAction<IUserData>) {
          state.loginRequest = false;
-         state.token = action.payload.accessToken;
+         
+         const token = action.payload.accessToken.split("Bearer ")[1]
+         state.token = token;
          state.userInfo = action.payload.user;
       },
       setLoginFailed(state) {
@@ -156,16 +160,25 @@ const userSlice = createSlice({
          state.registrationRequest = true;
          state.registrationFailed = false;
       },
-      registrationUserSuccess(state, action: PayloadAction<IUserData> ) {
+      registrationUserSuccess(state, action: PayloadAction<IUserData>) {
          state.registrationRequest = false;
-         state.token = action.payload.accessToken;
+         const token = action.payload.accessToken.split("Bearer ")[1]
+         state.token = token;
       },
       registrationUserFailed(state) {
          state.registrationRequest = false;
          state.registrationFailed = true;
       },
    }
-})
+});
+
+export const selectIsForgotPassword = (state: RootState) => {
+   return state.userSlice.isForgotPassword;
+};
+
+export const selectAccessToken = (state: RootState) => {
+   return state.userSlice.token;
+};
 
 export const {
    setForgotPasswordState,

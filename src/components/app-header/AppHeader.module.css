@@ -31,9 +31,14 @@
    color: #f2f2f3;
 }
 
+.link_active svg {
+   fill: white;
+}
+
 .link {
    display: flex;
    text-decoration: none;
    align-items: center;
    color: #8585ad;
 }
+

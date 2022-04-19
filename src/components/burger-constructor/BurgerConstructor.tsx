@@ -13,11 +13,13 @@ import { closeCreatedOrder } from '../../services/reducers/modal';
 import { sortConstructorIngredients } from '../../services/reducers/ingredient';
 import { IBurgerConstructorProps, IIngredient } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../hook/hook';
+import Loader from '../loader/Loader';
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const { userInfo } = useAppSelector(state => state.userSlice)
-   const { constructorIngredients } = useAppSelector(state => state.ingredientSlice)
+   const { constructorIngredients, createdOrder, orderRequest, orderFailed } = useAppSelector(state => state.ingredientSlice)
    const { modalCreatedOrderActive } = useAppSelector(state => state.modalSlice)
+   const { token } = useAppSelector(state => state.userSlice)
    const dispatch = useAppDispatch()
    const navigate = useNavigate();
 
@@ -25,22 +27,29 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
       constructorIngredients.reduce((acc, cur) => cur.type === 'bun' ? acc + (cur.price * 2) : acc + cur.price, 0)
       , [constructorIngredients])
 
-   const [, dropRef] = useDrop({
+   const [{ isHover }, dropRef] = useDrop({
       accept: 'ingredient',
       drop(item: IIngredient) {
          onDropHandler(item);
       },
+      collect: (monitor) => ({
+         isHover: monitor.canDrop(),
+      }),
    });
 
+   const colorBorder = isHover ? style.constructor_container_one : style.constructor_container_two;
+
    const bun = constructorIngredients.find((item) => item.type === 'bun');
-   // @ts-ignore
-   const bunHandler = (constructorIngredients: IIngredient[], property: string, trueValue: string, falseValue: string) => constructorIngredients.find(ingredient => ingredient.type === 'bun') ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}` : falseValue
+
+   const bunHandler = (constructorIngredients: IIngredient[], property: string, trueValue: string, falseValue: string) => constructorIngredients.find(ingredient => ingredient.type === 'bun')
+      // @ts-ignore
+      ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}`
+      : falseValue
 
    const openOrderDetails = () => {
       const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
-
       if (userInfo) {
-         dispatch(sendOrder(ingredientsId))
+         dispatch(sendOrder(ingredientsId, token))
       } else {
          navigate('/login')
       }
@@ -49,8 +58,6 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
    const onClose = () => {
       dispatch(closeCreatedOrder());
    }
-
-
 
    const moveCard = (dragIndex: number, hoverIndex: number) => {
       const dragCard = constructorIngredients[dragIndex];
@@ -62,7 +69,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
 
    return (
       <DndProvider backend={HTML5Backend}>
-         <div className="mt-25" ref={dropRef}>
+         <div className={`${colorBorder} mt-25`} ref={dropRef}>
             {(constructorIngredients.length > 0 && bun)
                ? <div className='ml-20'>
                   <ConstructorElement
@@ -115,8 +122,13 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
                </div>
             </div>
          </div>
+         {!modalCreatedOrderActive && orderRequest && !orderFailed &&
+            (<Modal onClick={onClose} title=''>
+               <Loader />
+            </Modal >)
+         }
 
-         {modalCreatedOrderActive && userInfo &&
+         {modalCreatedOrderActive && !orderRequest && !orderFailed && createdOrder &&
             (<Modal onClick={onClose} title=''>
                <OrderDetails />
             </Modal >)

@@ -9,7 +9,6 @@ const IngredientDetails: FC = () => {
    const { id } = useParams();
    const { actualIngredient } = useAppSelector(state => state.modalSlice);
    const { ingredients } = useAppSelector(state => state.ingredientSlice);
-
    const ingredientId = id ? ingredients.find((ingredient: IIngredient) => ingredient._id === id) : actualIngredient;
 
    return (
