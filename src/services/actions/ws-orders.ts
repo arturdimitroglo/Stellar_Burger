@@ -11,7 +11,6 @@ export const fetchOrdersThunk = createAsyncThunk<
 >("order/fetchOrders", async (_, thunkAPI) => {
    const token = thunkAPI.getState().userSlice.token;
    const orders = await mainApi.fetchOrders(token);
-   console.log(orders)
    thunkAPI.dispatch(updateOrders(orders.orders));
 });
 

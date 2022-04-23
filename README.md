@@ -1,6 +1,6 @@
 # **Stellar Burger** 👨🏼‍🎓
 
-# Ссылка на проект: [stellar burgers](https://nenevaleksey.github.io/stellar-burger/)
+# [stellar burgers](https://nenevaleksey.github.io/stellar-burger/index.html)
 
 ### **Содержание**
   - [О проекте](#О-проекте)

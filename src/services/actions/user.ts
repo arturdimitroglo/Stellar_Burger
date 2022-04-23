@@ -50,7 +50,6 @@ export const resetPassword = (password: string, code: string) => {
 
       mainApi.resetPassword(password, code)
          .then(() => {
-            console.log(code)
             dispatch(setResetPasswordSuccess());
             dispatch(setForgotPasswordState(false))
          })

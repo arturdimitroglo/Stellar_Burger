@@ -45,7 +45,7 @@ const App: FC = () => {
   return (
     <>
       <Routes location={state?.background || location}>
-        <Route path='*' element={<Layout />}>
+        <Route path='/react-burger/*' element={<Layout />}>
           <Route index element={<Main />} />
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Registration />} />

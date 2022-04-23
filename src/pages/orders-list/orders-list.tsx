@@ -12,7 +12,7 @@ const OrdersList: React.FC = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(selectIsForgotPassword);
   const orders = useAppSelector(selectOrders);
-  const accessToken = useAppSelector(selectAccessToken);
+  const token = useAppSelector(selectAccessToken);
 
   useModifyOrders();
 
@@ -20,7 +20,7 @@ const OrdersList: React.FC = () => {
     if (isAuthenticated) {
       dispatch({
         type: WS_ORDER_ACTIONS.wsInitWithCustomUrl,
-        payload: `wss://norma.nomoreparties.space/orders?token=${accessToken}`,
+        payload: `wss://norma.nomoreparties.space/orders?token=${token}`,
       });
     }
 
