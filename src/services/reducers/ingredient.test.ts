@@ -74,7 +74,7 @@ const MOCK_INGREDIENTS = [
 const prevState = initialState;
 
 describe('ingredients reducer', () => {
-   it('Проверка начального состояния initialState', () => {
+   it('проверка начального состояния initialState', () => {
       expect(reducer(undefined, { type: test })).toEqual(initialState)
    });
 

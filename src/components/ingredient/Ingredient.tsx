@@ -33,7 +33,7 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
 
    constructorIngredients.forEach((ingredient: IIngredient) => ingredient.name === name && (ingredient.type === 'bun' ? counter += 2 : counter += 1))
 
-   const handleChoseIngredient: React.MouseEventHandler<HTMLDivElement> = (e) => {
+   const handleChoseIngredient: React.MouseEventHandler<HTMLLIElement> = (e) => {
       e.preventDefault();
       const targetIngredient = ingredients.find(
          (ingredient: IIngredient) => ingredient._id === e.currentTarget.dataset.id
@@ -64,7 +64,7 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
    }, [constructorIngredients, type])
 
    return (
-      <div
+      <li
          className={`${style.item} ${isDrag && style.moving} ${type !== 'bun' ? isDisabled && style.item_disabled : ''}`}
          onContextMenu={handleChoseIngredient}
          data-id={_id} ref={dragRef}
@@ -79,7 +79,7 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
             </div>
             <h3 className={`${style.name} text text_type_main-default`}>{name}</h3>
          </Link>
-      </div>
+      </li>
    )
 }
 

@@ -24,7 +24,7 @@ export interface IUserCounterState {
    refreshTokenFailed: boolean;
 }
 
-const initialState: IUserCounterState = {
+export const initialState: IUserCounterState = {
    forgotPasswordRequest: false,
    forgotPasswordFailed: false,
    isForgotPassword: false,
@@ -122,7 +122,6 @@ const userSlice = createSlice({
       },
       setLoginSuccess(state, action: PayloadAction<IUserData>) {
          state.loginRequest = false;
-         
          const token = action.payload.accessToken.split("Bearer ")[1]
          state.token = token;
          state.userInfo = action.payload.user;
