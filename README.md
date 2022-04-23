@@ -1,3 +1,9 @@
+# Demo: [stellar burgers](https://qtrixnet.github.io/stellar-burgers/)
+
+# Stellar burgers 👨🏼‍🎓
+Учебный проект от Яндекс.Практикума о Норме и космической бургерной.
+При создании этого проекта была использована связка TS + React. В качестве стейт-менеджера был выбран Redux Toolkit.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
