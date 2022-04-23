@@ -1,8 +1,8 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
-  "homepage": "./", 
   "dependencies": {
     "@manaflair/redux-batch": "^1.0.0",
     "@reduxjs/toolkit": "^1.7.1",
