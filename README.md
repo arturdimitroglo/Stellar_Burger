@@ -1,4 +1,4 @@
-# Demo: [stellar burgers](https://qtrixnet.github.io/stellar-burgers/)
+# Demo: [stellar burgers](https://nenevaleksey.github.io/stellar-burger/)
 
 # Stellar burgers 👨🏼‍🎓
 Учебный проект от Яндекс.Практикума о Норме и космической бургерной.
