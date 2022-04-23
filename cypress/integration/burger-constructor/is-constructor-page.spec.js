@@ -20,17 +20,12 @@ describe('создание заказа', () => {
    });
 
    it('должен войти в профиль', () => {
-      cy.contains('Вход');
       cy.get('form').within(() => {
          cy.get('input:first').should('have.attr', 'name', 'e-mail').type('qwe@mail.com');
          cy.get('input:last').should('have.attr', 'name', 'password').type('1234qwer');
       })
       cy.get('button').contains('Войти').click();
-      cy.get('button').contains('Оформить заказ').click();
-   });
-
-   it('должен вернутся на страницу конструктора и нажать на оформить заказ', () => {
-      cy.contains('Соберите бургер');
+      cy.wait(500)
       cy.get('button').contains('Оформить заказ').click();
    });
 
@@ -40,7 +35,7 @@ describe('создание заказа', () => {
       cy.get("#modals button").click();
    });
 
-   it('должен открыть страницу ленты заказа и вернулться', () => {
+   it('должен открыть страницу ленты заказа и вернуться', () => {
       cy.contains('Соберите бургер');
       cy.contains('Лента заказов').click();
       cy.wait(500);

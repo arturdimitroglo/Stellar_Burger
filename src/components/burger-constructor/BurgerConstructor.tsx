@@ -45,7 +45,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
       // @ts-ignore
       ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}`
       : falseValue
-
+   
    const openOrderDetails = () => {
       const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
       if (userInfo) {
