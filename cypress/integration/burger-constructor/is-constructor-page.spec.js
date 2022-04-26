@@ -9,13 +9,16 @@ describe('создание заказа', () => {
 
    it('должен добавить ингредиенты и нажать на оформить заказ', () => {
       cy.get('[class^=BurgerConstructor_constructor_container_]').as("constructor");
+      
+      cy.get('li').contains('Флюоресцентная булка R2-D3').trigger("dragstart").trigger("dragleave");
+      cy.get("@constructor").trigger("dragenter").trigger("dragover").trigger("drop").trigger("dragend");
+      
+      cy.get('li').contains('Кристаллы марсианских альфа-сахаридов').trigger("dragstart").trigger("dragleave");
+      cy.get("@constructor").trigger("dragenter").trigger("dragover").trigger("drop").trigger("dragend");
 
-      cy.get('li').contains('Флюоресцентная булка R2-D3').trigger("dragstart");
-      cy.get("@constructor").trigger("drop");
-      cy.get('li').contains('Кристаллы марсианских альфа-сахаридов').trigger("dragstart");
-      cy.get("@constructor").trigger("drop");
       cy.get('li').contains('Плоды Фалленианского дерева').trigger("dragstart");
-      cy.get("@constructor").trigger("drop");
+      cy.get("@constructor").trigger("dragenter").trigger("dragover").trigger("drop").trigger("dragend");
+
       cy.get('button').contains('Оформить заказ').click();
    });
 
