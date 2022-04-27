@@ -45,7 +45,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
       // @ts-ignore
       ? `${(constructorIngredients.find(ingredient => ingredient.type === 'bun'))[property]} ${trueValue}`
       : falseValue
-
+   
    const openOrderDetails = () => {
       const ingredientsId = constructorIngredients.map((ingredient) => ingredient._id)
       if (userInfo) {
@@ -124,7 +124,9 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({ onDropHandler }) => {
          </div>
          {!modalCreatedOrderActive && orderRequest && !orderFailed &&
             (<Modal onClick={onClose} title=''>
-               <Loader />
+               <div className='p-20 m-20'>
+                  <Loader />
+               </div>
             </Modal >)
          }
 

@@ -14,7 +14,7 @@ export interface IIngredientCounterState {
    orderRequest: boolean;
 }
 
-const initialState: IIngredientCounterState = {
+export const initialState: IIngredientCounterState = {
    ingredients: [],
    constructorIngredients: [],
    createdOrder: null,

@@ -37,7 +37,6 @@ const wsOrdersReducer = createReducer(initialState, {
       action: PayloadAction<IWsOrdersState>
    ) => {
       state = action.payload;
-
       return state;
    },
    [WS_ORDER_ACTIONS.onClose]: () => initialState,

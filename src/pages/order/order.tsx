@@ -1,5 +1,5 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import {  NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { formatDate } from "../../components/feed-card/feed-card";
 import IngredientImage from "../../components/ingredient-image/ingredient-image";
 import { TOrder } from "../../utils/types";

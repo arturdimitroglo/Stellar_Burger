@@ -3,7 +3,6 @@ import style from './Ingredient.module.css';
 import { useDrag } from "react-dnd";
 import { IIngredient, IIngredientProps } from '../../utils/types';
 import { openIngredientDetails } from '../../services/reducers/modal';
-import { draggingAnElement } from '../../services/reducers/ingredient';
 import { FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hook/hook';
 import { Link, useLocation } from 'react-router-dom';
@@ -33,28 +32,6 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
 
    constructorIngredients.forEach((ingredient: IIngredient) => ingredient.name === name && (ingredient.type === 'bun' ? counter += 2 : counter += 1))
 
-   const handleChoseIngredient: React.MouseEventHandler<HTMLDivElement> = (e) => {
-      e.preventDefault();
-      const targetIngredient = ingredients.find(
-         (ingredient: IIngredient) => ingredient._id === e.currentTarget.dataset.id
-      );
-      const selectedBun = constructorIngredients.find(
-         (ingredient: IIngredient) => ingredient.type === "bun"
-      );
-
-      const selectedBunIndex = selectedBun && constructorIngredients.indexOf(selectedBun);
-
-      if (targetIngredient) {
-         if (targetIngredient.type === "bun" && selectedBun) {
-            const constructorIngredientsClone = constructorIngredients.slice();
-            selectedBunIndex && constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
-            dispatch(draggingAnElement(constructorIngredientsClone));
-         } else {
-            dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
-         }
-      }
-   }
-
    useEffect(() => {
       if (type !== 'bun' && !constructorIngredients.some(ingredient => ingredient.type === 'bun')) {
          setIsDisabled(true)
@@ -64,9 +41,9 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
    }, [constructorIngredients, type])
 
    return (
-      <div
+      <li
          className={`${style.item} ${isDrag && style.moving} ${type !== 'bun' ? isDisabled && style.item_disabled : ''}`}
-         onContextMenu={handleChoseIngredient}
+         
          data-id={_id} ref={dragRef}
          onClick={() => onClick(ingredient)}
       >
@@ -79,7 +56,7 @@ const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
             </div>
             <h3 className={`${style.name} text text_type_main-default`}>{name}</h3>
          </Link>
-      </div>
+      </li>
    )
 }
 

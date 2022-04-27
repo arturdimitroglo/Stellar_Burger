@@ -16,16 +16,17 @@ const Main: FC = () => {
    const handleDrop = (item: IIngredient) => {
       const targetIngredient = ingredients.find((ingredient: IIngredient) => ingredient._id === item._id)
       const selectedBun = constructorIngredients.find((ingredient: IIngredient) => ingredient.type === 'bun')
-      const selectedBunIndex = selectedBun && constructorIngredients.indexOf(selectedBun)
-      
-      if (targetIngredient) {
-         if (targetIngredient?.type === 'bun' && selectedBun) {
-            const constructorIngredientsClone = constructorIngredients.slice();
-            selectedBunIndex && constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
-            dispatch(draggingAnElement(constructorIngredientsClone));
-         } else {
-            dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
-         }
+      // @ts-ignore
+      const selectedBunIndex = constructorIngredients.indexOf(selectedBun)
+      // @ts-ignore
+      if (targetIngredient.type === 'bun' && selectedBun) {
+         const constructorIngredientsClone = constructorIngredients.slice();
+         // @ts-ignore
+         constructorIngredientsClone.splice(selectedBunIndex, 1, targetIngredient);
+         dispatch(draggingAnElement(constructorIngredientsClone));
+      } else {
+         // @ts-ignore
+         dispatch(draggingAnElement([...constructorIngredients, targetIngredient]));
       }
    }
 
